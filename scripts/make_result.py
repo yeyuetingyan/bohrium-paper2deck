@@ -107,8 +107,12 @@ def main():
         "case_id": args.case_id,
         "status": args.status,
         "slides": len(slides),
-        "figures_used": sum(1 for s in slides if (s.get("figure") or {}).get("path")),
-        "tables_used": sum(1 for s in slides if s.get("table")),
+        "figures_used": sum(1 for s in slides
+                            if (s.get("figure") or {}).get("path")
+                            and not os.path.basename(s["figure"]["path"]).startswith("tab_")),
+        "tables_used": sum(1 for s in slides
+                           if s.get("table") or any(e.get("kind") == "table"
+                                                    for e in (s.get("evidence") or []))),
         "slides_with_evidence": sum(1 for s in slides if s.get("evidence")),
         "slides_with_notes": sum(1 for s in slides if s.get("notes")),
         "check_status": check.get("status"),
