@@ -1,0 +1,75 @@
+{
+ "_note": "示例输出（合成稿件 + 合成文献库，仅演示字段形态，不是正式案例结果）",
+ "schema": "paperkit/1.0",
+ "case_id": "cite-demo",
+ "status": "partial",
+ "primary_result": {
+  "manuscript": "manuscript_revised.md",
+  "references": "references_gbt7714.txt",
+  "citation_style": "numeric",
+  "entries_in": 11,
+  "entries_after_dedupe": 10,
+  "duplicates_merged": 1,
+  "citations": 13,
+  "renumbered": 8,
+  "unresolved": 1,
+  "uncited": [
+   9,
+   10
+  ]
+ },
+ "evidence": [
+  {
+   "kind": "renumber",
+   "old": 3,
+   "new": 1,
+   "title": "Neural Machine Translation by Jointly Learning to Align and Translate"
+  },
+  {
+   "kind": "renumber",
+   "old": 1,
+   "new": 2,
+   "title": "Attention Is All You Need"
+  },
+  {
+   "kind": "renumber",
+   "old": 2,
+   "new": 3,
+   "title": "Sequence to Sequence Learning with Neural Networks"
+  },
+  {
+   "kind": "renumber",
+   "old": 5,
+   "new": 4,
+   "title": "Convolutional Sequence to Sequence Learning"
+  }
+ ],
+ "uncertainty": [],
+ "artifacts": [
+  {
+   "path": "manuscript_revised.md",
+   "role": "manuscript",
+   "bytes": 1073
+  },
+  {
+   "path": "references_gbt7714.txt",
+   "role": "bibliography",
+   "bytes": 1347
+  },
+  {
+   "path": "references_deduped.bib",
+   "role": "bibliography_bibtex",
+   "bytes": 2358
+  },
+  {
+   "path": "citation_map.json",
+   "role": "citation_map",
+   "bytes": 1530
+  },
+  {
+   "path": "check.json",
+   "role": "self_check",
+   "bytes": 679
+  }
+ ]
+}

@@ -1,0 +1,12 @@
+{
+    "case_id":  "cite-demo",
+    "output_contract":  {
+                            "citation_style":  null,
+                            "references":  null,
+                            "manuscript":  null
+                        },
+    "library":  [
+                    "library.bib"
+                ],
+    "manuscript":  "manuscript.md"
+}
