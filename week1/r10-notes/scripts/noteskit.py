@@ -50,6 +50,11 @@ def split_sentences(text: str):
     out = []
     for p in parts:
         p = p.replace(MARK, ".").strip()
+        # 版式断块会切出半句：小写起头或没有句末标点的片段不进入笔记
+        if not re.match(r"^[A-Z0-9\(\[\"\u201c\u4e00-\u9fff]", p):
+            continue
+        if not re.search(r"[.!?。！？:：;；\)\]\"”]$", p):
+            continue
         # 中文句更短也承载完整信息，阈值按字符类型分开
         floor = 18 if pk.cjk_ratio(p) > 0.3 else 30
         if len(p) >= floor or (len(p) >= 12 and re.search(r"\d", p)):

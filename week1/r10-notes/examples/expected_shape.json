@@ -18,7 +18,7 @@
   },
   "sections": 6,
   "sections_with_notes": 5,
-  "notes_total": 24,
+  "notes_total": 17,
   "findings": 2,
   "anchor_hit_rate": 1.0
  },
@@ -47,17 +47,17 @@
   {
    "path": "notes.md",
    "role": "notes_markdown",
-   "bytes": 5878
+   "bytes": 5296
   },
   {
    "path": "notes.json",
    "role": "notes_json",
-   "bytes": 16210
+   "bytes": 13773
   },
   {
    "path": "anchors.json",
    "role": "anchors",
-   "bytes": 8077
+   "bytes": 6563
   },
   {
    "path": "check.json",
