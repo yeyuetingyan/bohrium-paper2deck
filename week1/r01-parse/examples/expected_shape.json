@@ -1,0 +1,54 @@
+{
+ "_note": "示例输出（由 examples/sample.pdf 生成，仅演示字段形态，不是正式案例结果）",
+ "schema": "paperkit/1.0",
+ "case_id": "sample-demo",
+ "status": "ok",
+ "primary_result": {
+  "markdown": "document.md",
+  "blocks": 12,
+  "pages": 1,
+  "sections": 5,
+  "tables": 1,
+  "figures": 0,
+  "title": "A Synthetic Sample Paper for Parser Demonstration",
+  "authors": "",
+  "language": "en"
+ },
+ "evidence": [
+  {
+   "page": 1,
+   "kind": "heading",
+   "block": "p1b1",
+   "quote": "A Synthetic Sample Paper for Parser Demonstration"
+  },
+  {
+   "page": 1,
+   "kind": "heading",
+   "block": "p1b2",
+   "quote": "Sample Author, Example Institute"
+  },
+  {
+   "page": 1,
+   "kind": "heading",
+   "block": "p1b3",
+   "quote": "Abstract"
+  }
+ ],
+ "artifacts": [
+  {
+   "path": "document.md",
+   "role": "markdown",
+   "bytes": 1098
+  },
+  {
+   "path": "blocks.json",
+   "role": "block_anchors",
+   "bytes": 2727
+  },
+  {
+   "path": "check.json",
+   "role": "self_check",
+   "bytes": 421
+  }
+ ]
+}

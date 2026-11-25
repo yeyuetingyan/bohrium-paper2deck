@@ -1,0 +1,13 @@
+{
+ "case_id": "sample-demo",
+ "paper_path": "sample.pdf",
+ "max_pages": 5,
+ "language": "en",
+ "output_contract": {
+  "markdown": null,
+  "blocks": null,
+  "pages": null,
+  "figures": null,
+  "tables": null
+ }
+}
