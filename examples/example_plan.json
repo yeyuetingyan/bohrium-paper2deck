@@ -1,0 +1,63 @@
+{
+  "_note": "最小调用示例：4 页示意计划。文中数字、页码与结论均为示例数据，仅演示接口与流程，不是任何正式案例的结果。",
+  "deck": {
+    "short_title": "示例：Paper2Deck 最小计划",
+    "kicker": "示例",
+    "audience": "同领域研究生",
+    "duration_min": 5,
+    "max_slides": 6,
+    "template": null
+  },
+  "slides": [
+    {
+      "id": "s1",
+      "type": "title",
+      "kicker": "示例 · 不是正式结果",
+      "title": "Example Paper: A Minimal Demo",
+      "subtitle": "用 4 页演示 plan.json 的字段与页序",
+      "authors": "Doe, Roe, Poe",
+      "venue": "Demo Venue 2026 · arXiv:0000.00000",
+      "takeaway": "示例：先落一版能打开的短稿，再增量补页",
+      "notes": "这是示例讲稿。正式使用时由模型根据论文内容重写。",
+      "evidence": [{"page": 1, "kind": "text", "label": "", "quote": "example quote from the abstract"}]
+    },
+    {
+      "id": "s2",
+      "type": "bullets",
+      "kicker": "01 · 问题",
+      "title": "现有做法卡在哪里",
+      "claim": "示例主张：串行结构限制了并行度",
+      "bullets": [
+        {"text": "示例要点一：逐步依赖导致无法并行", "level": 0},
+        {"text": "示例要点二：长程依赖需要多步传播", "level": 0},
+        {"text": "示例要点三：替代方案感受野受限", "level": 0}
+      ],
+      "side": {"title": "本页主张", "text": "示例卡片：把限制说清楚，再引出方案。"},
+      "notes": "示例讲稿：强调约束，为下一页的方法做铺垫。",
+      "evidence": [{"page": 2, "kind": "section", "label": "Introduction", "quote": "example quote about sequential computation"}]
+    },
+    {
+      "id": "s3",
+      "type": "bullets",
+      "kicker": "02 · 结果",
+      "title": "主结果只留三个数字",
+      "claim": "示例主张：质量更高且成本更低",
+      "bullets": [
+        {"text": "示例指标 A：00.0（单位）", "level": 0},
+        {"text": "示例指标 B：00.0（单位）", "level": 0},
+        {"text": "示例成本：0 GPU·天", "level": 0}
+      ],
+      "notes": "示例讲稿：先指基线再指本文，最后强调成本列。",
+      "evidence": [{"page": 8, "kind": "table", "label": "Table 2", "quote": "example table caption"}]
+    },
+    {
+      "id": "s4",
+      "type": "closing",
+      "kicker": "讨论",
+      "title": "谢谢，欢迎讨论",
+      "claim": "示例总结：一句话说清贡献。",
+      "footer": "材料来源：示例论文（非真实文献）",
+      "notes": "示例讲稿：留提问时间。"
+    }
+  ]
+}
