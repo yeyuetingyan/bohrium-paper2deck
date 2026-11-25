@@ -1,17 +1,17 @@
 {
- "_note": "示例输出（由 examples/sample.pdf 生成，仅演示字段形态，不是正式案例结果）",
+ "_note": "示例输出（examples/make_sample_pdf.py 生成的两页合成论文，仅演示字段形态，不是正式案例结果；页数、块数会随样例行数变化）",
  "schema": "paperkit/1.0",
  "case_id": "sample-demo",
  "status": "ok",
  "primary_result": {
   "markdown": "document.md",
-  "blocks": 12,
-  "pages": 1,
-  "sections": 5,
+  "blocks": 17,
+  "pages": 2,
+  "sections": 6,
   "tables": 1,
   "figures": 0,
-  "title": "A Synthetic Sample Paper for Parser Demonstration",
-  "authors": "",
+  "title": "Sparse Attention Routing for Long-Document Summarization",
+  "authors": "Demo Author, Second Author",
   "language": "en"
  },
  "evidence": [
@@ -19,36 +19,40 @@
    "page": 1,
    "kind": "heading",
    "block": "p1b1",
-   "quote": "A Synthetic Sample Paper for Parser Demonstration"
-  },
-  {
-   "page": 1,
-   "kind": "heading",
-   "block": "p1b2",
-   "quote": "Sample Author, Example Institute"
+   "quote": "Sparse Attention Routing for Long-Document Summarization"
   },
   {
    "page": 1,
    "kind": "heading",
    "block": "p1b3",
    "quote": "Abstract"
+  },
+  {
+   "page": 2,
+   "kind": "table",
+   "block": "p2b15",
+   "quote": "Synthetic configurations. Numbers are placeholders, not measurements."
   }
  ],
+ "uncertainty": [],
  "artifacts": [
   {
    "path": "document.md",
    "role": "markdown",
-   "bytes": 1098
+   "media_type": "text/markdown",
+   "bytes": 2321
   },
   {
    "path": "blocks.json",
    "role": "block_anchors",
-   "bytes": 2727
+   "media_type": "application/json",
+   "bytes": 3949
   },
   {
    "path": "check.json",
    "role": "self_check",
-   "bytes": 421
+   "media_type": "application/json",
+   "bytes": 466
   }
  ]
 }

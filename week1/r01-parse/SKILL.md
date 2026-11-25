@@ -85,13 +85,14 @@ python "$SKILL/scripts/parse_document.py" --case /input/case.json --out /app/out
 
 ## 最小示例
 
-`examples/example_case.json` 指向一份本地 PDF，可直接跑：
+仓库不放二进制样例（平台预检只接受 UTF-8 文本资源），演示 PDF 现场生成：
 
 ```bash
+python examples/make_sample_pdf.py examples/sample.pdf
 python scripts/parse_document.py --case examples/example_case.json --out /tmp/demo
 ```
 
-示意输出见 `examples/expected_shape.json`（**示例数据，不是正式案例结果**）。
+生成物为两页合成论文（虚构数据），用于核对标题、段落、表格、页锚点的还原形态。示意输出见 `examples/expected_shape.json`（**示例数据，不是正式案例结果**）。
 
 ## 限制
 

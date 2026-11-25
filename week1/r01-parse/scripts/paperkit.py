@@ -187,6 +187,29 @@ CAP_RE = re.compile(
     r"(?P<num>[0-9]{1,3}|[IVX]{1,5})[a-z]?)\s*[.:|：]?\s*(?P<cap>.*)$",
     re.IGNORECASE,
 )
+# 题注标签后紧跟分隔符（"Table 1:" / "Table 1." / "Table 1 |"），用于区分正文引用
+CAP_SEP_RE = re.compile(
+    r"^\s*(?:Figure|Fig\.?|Table|Scheme|Algorithm|图|表)\s*"
+    r"(?:[0-9]{1,3}|[IVX]{1,5})[a-z]?\s*[.:|：]", re.IGNORECASE)
+
+
+def caption_like(text: str) -> bool:
+    """判断一行是否像图/表题注，排除"Table 1 reports ..."这类正文引用句。
+
+    题注的形态：标签后有分隔符，或标签后直接接短语；正文引用句通常是
+    "Table 1 reports/shows/compares ..."，标签后直接跟小写动词，且整句很长。
+    """
+    m = CAP_RE.match(text)
+    if not m:
+        return False
+    cap = (m.group("cap") or "").strip()
+    if len(text) > 300 or len(cap.split()) > 45:
+        return False
+    if not CAP_SEP_RE.match(text) and cap[:1].islower():
+        return False
+    return True
+
+
 NUM_HEAD_RE = re.compile(r"^\s*(?P<num>\d{1,2}(?:\.\d{1,2}){0,2})\.?\s+(?P<title>[A-Z\u4e00-\u9fff][^.;:!?]{2,70})$")
 
 BAD_TITLE = re.compile(
@@ -446,7 +469,7 @@ class PDFDoc:
         lines = merged_lines
         paras, cur = [], []
         for ln in lines:
-            if self.is_heading(ln) or CAP_RE.match(ln["text"]):
+            if self.is_heading(ln) or caption_like(ln["text"]):
                 if cur:
                     paras.append(cur)
                     cur = []
@@ -495,10 +518,10 @@ class PDFDoc:
         i = 0
         while i < len(lines):
             ln = lines[i]
-            m = CAP_RE.match(ln["text"])
-            if not m:
+            if not caption_like(ln["text"]):
                 i += 1
                 continue
+            m = CAP_RE.match(ln["text"])
             label = norm(m.group("label"))
             head = label.split()[0].rstrip(".")
             kind = "table" if head.lower().startswith(("table", "表")) else "figure"
@@ -743,6 +766,7 @@ def to_markdown(doc_obj: PDFDoc, figdir_rel: str = "figures", include_page_marks
     """
     figs = doc_obj.figures(out_dir=figdir_rel if figdir_rel else None)
     tabs = doc_obj.tables(out_dir=figdir_rel if figdir_rel else None)
+    title_text = doc_obj.detect_title()
     cap_by_page = {}
     for c in doc_obj.captions():
         cap_by_page.setdefault(c["page"], []).append(c)
@@ -773,7 +797,7 @@ def to_markdown(doc_obj: PDFDoc, figdir_rel: str = "figures", include_page_marks
         used_labels = {f["label"] for f in figs if f["page"] == pno and f["label"]}
         used_labels |= {t["label"] for t in tabs if t["page"] == pno and t["label"]}
         items = [(k, o) for (k, o) in items
-                 if not (k == "para" and CAP_RE.match(o.get("text", "")) and
+                 if not (k == "para" and caption_like(o.get("text", "")) and
                          norm(CAP_RE.match(o["text"]).group("label")) in used_labels)]
 
         for kind, obj in items:
@@ -783,7 +807,7 @@ def to_markdown(doc_obj: PDFDoc, figdir_rel: str = "figures", include_page_marks
                 if not text:
                     continue
                 if obj["heading"]:
-                    level = min(6, max(2, obj["level"] + 1))
+                    level = 1 if text == title_text else min(6, max(2, obj["level"] + 1))
                     md.append(f"{'#' * level} {text}")
                     blocks.append({"id": bid, "page": pno, "y0": obj["y0"],
                                    "kind": "heading", "chars": len(text),
