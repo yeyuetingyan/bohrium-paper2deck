@@ -1,0 +1,12 @@
+{
+ "_note": "先运行 python examples/make_sample_pdf.py examples/sample.pdf（提交包内不放二进制样例）",
+ "case_id": "notes-demo",
+ "paper_path": "sample.pdf",
+ "max_pages": 10,
+ "output_contract": {
+  "notes": null,
+  "sections": null,
+  "findings": null,
+  "anchors": null
+ }
+}

@@ -1,0 +1,68 @@
+{
+ "_note": "示例输出（examples/make_sample_pdf.py 生成的两页合成论文，仅演示字段形态，不是正式案例结果）",
+ "schema": "paperkit/1.0",
+ "case_id": "notes-demo",
+ "status": "ok",
+ "primary_result": {
+  "notes": "notes.md",
+  "notes_json": "notes.json",
+  "anchors": "anchors.json",
+  "concepts": 1,
+  "paper": {
+   "title": "Sparse Attention Routing for Long-Document Summarization",
+   "authors": "Demo Author, Second Author",
+   "year": "",
+   "arxiv": "",
+   "doi": "",
+   "pages": 2
+  },
+  "sections": 6,
+  "sections_with_notes": 5,
+  "notes_total": 24,
+  "findings": 2,
+  "anchor_hit_rate": 1.0
+ },
+ "evidence": [
+  {
+   "page": 1,
+   "kind": "research_question",
+   "block": "p1b7",
+   "quote": "In this paper we study whether a sparse routing layer can match full self-attention on long-document summarization under a fixed token budget."
+  },
+  {
+   "page": 2,
+   "kind": "findings",
+   "block": "p2b14",
+   "quote": "Sparse routing reaches 27.8 BLEU at 156 ms latency on the synthetic benchmark, improving over a Window-512 baseline by 0.9 BLEU while reducing latency by 17%."
+  },
+  {
+   "page": 2,
+   "kind": "limitations",
+   "block": "p2b17",
+   "quote": "A limitation of this synthetic study is that no real dataset was used, so the numbers cannot be generalized beyond the page."
+  }
+ ],
+ "uncertainty": [],
+ "artifacts": [
+  {
+   "path": "notes.md",
+   "role": "notes_markdown",
+   "bytes": 5878
+  },
+  {
+   "path": "notes.json",
+   "role": "notes_json",
+   "bytes": 16210
+  },
+  {
+   "path": "anchors.json",
+   "role": "anchors",
+   "bytes": 8077
+  },
+  {
+   "path": "check.json",
+   "role": "self_check",
+   "bytes": 863
+  }
+ ]
+}
