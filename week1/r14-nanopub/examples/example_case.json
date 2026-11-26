@@ -1,0 +1,20 @@
+{
+  "_readme": [
+    "示例 case.json（最小可用输入）：字段命名与官方 case 保持同一套约定，",
+    "真实评测时由平台提供 /input/case.json，脚本只按字段取值，不需要改代码。"
+  ],
+  "case_id": "example-synthetic-paper",
+  "task": "把这篇论文的结论拆成逐条可判断真假的断言，并为每条绑定逐字可回查的最小证据。",
+  "paper_path": "sample.pdf",
+  "target_relations": ["compose", "differ", "require", "cause", "measure", "increase", "method_of"],
+  "max_pages": 40,
+  "instructions": "示例：sample.pdf 由 make_sample_paper.py 现场生成，不是任何真实论文。",
+  "output_contract": {
+    "assertions": { "default": null },
+    "nanopublications": { "default": null },
+    "evidence": { "default": null },
+    "check": { "default": null },
+    "review": { "default": null },
+    "table": { "default": null }
+  }
+}

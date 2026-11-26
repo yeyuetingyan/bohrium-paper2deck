@@ -1,0 +1,22 @@
+{
+  "schema": "nanokit-relation-vocab/1.0",
+  "description": "断言关系的受控词表。relation 字段必须取这里的键（英文小写下划线）；value 是可用于识别该关系的英文/中文线索词，供 nanoextract.py 给出候选提示，也供人工核对方向。",
+  "direction_convention": "subject --relation--> object 必须与证据片段的语义方向一致；increase/decrease 等有方向的关系不得反向使用。",
+  "relations": {
+    "increase": ["increase", "increased", "increases", "enhance", "enhanced", "improve", "improved", "higher", "promote", "boost", "raise", "growth", "提高", "增加", "增强", "提升"],
+    "decrease": ["decrease", "decreased", "decreases", "reduce", "reduced", "lower", "suppress", "inhibit", "retard", "decline", "drop", "降低", "减少", "抑制"],
+    "no_effect": ["no significant change", "no difference", "unchanged", "comparable", "similar", "not affected", "independent of", "无显著变化", "无差异", "不受影响"],
+    "cause": ["cause", "causes", "lead to", "leads to", "result in", "results in", "due to", "drive", "drives", "induce", "induces", "trigger", "responsible for", "导致", "引起", "源于"],
+    "correlate": ["correlate", "correlates", "associated with", "correlation", "covary", "accompanied by", "相关", "伴随"],
+    "measure": ["measured", "determined", "calculated", "estimated", "quantified", "obtained", "recorded", "reports", "测定", "测得", "报告"],
+    "compare": ["compared with", "compared to", "than", "versus", "vs", "relative to", "outperform", "exceed", "相比", "优于"],
+    "require": ["require", "requires", "needed", "necessary", "depends on", "dependent on", "relies on", "prerequisite", "需要", "依赖", "取决于"],
+    "compose": ["consist of", "consists of", "composed of", "comprises", "contains", "is a", "is an", "belongs to", "part of", "包含", "由…组成", "属于"],
+    "method_of": ["using", "by means of", "via", "through", "prepared by", "measured by", "synthesized by", "通过", "采用"],
+    "enable": ["enable", "enables", "allow", "allows", "permit", "permits", "makes possible", "支持", "允许", "使…成为可能"],
+    "limit": ["limit", "limits", "restrict", "restricts", "constrain", "constrains", "bounded by", "cap", "限制", "约束"],
+    "differ": ["differ", "differs", "differed", "distinct from", "unlike", "different from", "不同于", "有差异"],
+    "outperform": ["outperform", "outperforms", "better than", "superior to", "beats", "优于", "强于"],
+    "trade_off": ["trade-off", "tradeoff", "trade off", "at the cost of", "sacrifices", "权衡", "以…为代价"]
+  }
+}
