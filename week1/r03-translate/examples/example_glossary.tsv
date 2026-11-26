@@ -1,0 +1,12 @@
+# term	zh	freq	pages	sections	status	note
+# 示例术语表：由 translate_prep.py 的 glossary_draft.tsv 人工补齐 zh 列后锁定。
+# 翻译阶段不得改动 zh 列；确需改译名时，改完必须整篇重译并重跑核验。
+sparse attention routing	稀疏注意力路由	2	1,1	Sparse Attention Routing for Long-Document Summarization	locked	标题与正文统一
+long-document summarization	长文档摘要	2	1,1	1 Introduction	locked	
+synthetic	合成	5	1,2	Abstract / 2 Method	locked	形容词形态统一为「合成」，不加「的」
+document	文档	3	1,2	Abstract / 4 Conclusion	locked	
+attention	注意力	2	1,2	1 Introduction	locked	表格中 Full attention 同样译「全注意力」
+routing layer	路由层	1	2	2 Method	locked	
+chunk	文本块	1	2	2 Method	locked	避免与「块」「段」混用
+token budget	token 预算	1	2	2 Method	locked	
+latency	延迟	1	2	2 Method	locked	

@@ -1,0 +1,17 @@
+{
+  "_readme": [
+    "示例 case.json（最小可用输入）：字段命名与官方 case 保持同一套约定，",
+    "真实评测时由平台提供 /input/case.json，脚本只按字段取值，不需要改代码。"
+  ],
+  "case_id": "example-synthetic-paper",
+  "task": "把这篇论文翻译成中文，输出段落级双语对照、术语表与译文核验清单。",
+  "paper_path": "sample.pdf",
+  "target_language": "zh",
+  "instructions": "示例：sample.pdf 由 make_sample_paper.py 现场生成，不是任何真实论文。",
+  "output_contract": {
+    "bilingual": { "default": null },
+    "glossary": { "default": null },
+    "check": { "default": null },
+    "segments": { "default": null }
+  }
+}

@@ -5,6 +5,7 @@
 | 题号 | 题目 | Skill | 目录 |
 |---|---|---|---|
 | 阅读01 | 文献文档解析 | `paper-parse-md` | [r01-parse](./r01-parse/) |
+| 阅读03 | 文献翻译 | `paper-translate` | [r03-translate](./r03-translate/) |
 | 阅读10 | 文献总结与结构化笔记 | `paper-notes` | [r10-notes](./r10-notes/) |
 | 写作04 | 引用管理与格式核对 | `cite-manager` | [w04-cite](./w04-cite/) |
 
