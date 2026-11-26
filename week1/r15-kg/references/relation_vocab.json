@@ -1,0 +1,28 @@
+{
+ "schema": "kgkit-relation-vocab/1.0",
+ "scope": "受控关系表。kg_prep.py 用它给关系候选打提示，kg_assemble.py 用它硬校验（表外的 relation 一律 high 级错误），下游复用者按此表读图。",
+ "direction_convention": "所有关系都是「主语 → 宾语」的有向读法，示例即方向定义；方向反了要报 direction_conflict，不允许靠别名互反来掩盖。",
+ "condition_policy": "凡原文把该关系限定在温度/湿度/时长/光照/样本/数据集等条件下，conditions 必须照抄，不得只留结论。两篇论文的 conditions 不同时，关系保留两条、来源各归各的，禁止合并成一条。",
+ "relations": {
+  "uses": {"zh": "使用", "def": "主语在研究/工艺中使用了宾语（材料、方法、设备、数据集）。", "cues": ["using", "used", "by means of", "via", "adopt", "employ", "采用", "使用"]},
+  "applied_to": {"zh": "施用于", "def": "把方法/工艺作用到某材料或器件上。", "cues": ["applied to", "deposited on", "coated onto", "fabricated on", "沉积于", "涂覆于"]},
+  "measures": {"zh": "测量", "def": "主语（方法/表征/研究）测量或评价宾语的指标。", "cues": ["measured", "characterized", "evaluated", "assessed", "测定", "表征", "评价"]},
+  "reported_value": {"zh": "报告数值", "def": "主语（指标）在给定条件下被报告了数值；数值放边的 value 字段，不进节点。", "cues": ["%", "h at", "achieved", "reached", "达到", "测得"]},
+  "improves": {"zh": "提升", "def": "主语使宾语（指标/性能）变好。方向不可反。", "cues": ["improve", "enhance", "increase", "boost", "better", "提高", "提升", "增强"]},
+  "degrades": {"zh": "降低/损害", "def": "主语使宾语变差。与 improves 不可互相替用。", "cues": ["degrad", "decrease", "reduce", "loss", "decline", "降低", "衰减", "下降"]},
+  "outperforms": {"zh": "优于", "def": "主语在可比条件下优于宾语，必须写明比较条件。", "cues": ["outperform", "superior to", "higher than", "优于", "高于"]},
+  "compares_with": {"zh": "对比", "def": "主语与宾语被放在同一比较中（不承诺优劣）。", "cues": ["compared with", "versus", "vs.", "对照", "相比"]},
+  "requires": {"zh": "依赖/需要", "def": "主语成立或生效需要宾语（条件、原料、前提）。", "cues": ["require", "necessitat", "depend on", "only if", "需要", "依赖"]},
+  "causes": {"zh": "导致", "def": "主语是宾语的原因；不得把共现当因果。", "cues": ["cause", "due to", "because", "result in", "导致", "因为"]},
+  "part_of": {"zh": "属于", "def": "主语是宾语的一部分或子类（结构、章节、体系）。", "cues": ["part of", "consist of", "composed of", "属于", "包含"]},
+  "supports": {"zh": "支持", "def": "证据（数据/图表/实验结果）支持某条结论。主语是证据性实体，宾语是 conclusion 节点。", "cues": ["support", "consistent with", "confirm", "支持", "印证"]},
+  "conflicts_with": {"zh": "与…冲突", "def": "跨篇或篇内结论/数值互相矛盾。用于显式保留冲突，禁止用合并抹平。", "cues": ["in contrast", "contradict", "disagree", "conflict", "相反", "矛盾"]},
+  "extends": {"zh": "扩展/沿用", "def": "主语在宾语（前人工作/方法/数据集）基础上继续（含二次材料里的增量更新场景）。", "cues": ["extend", "build on", "follow-up", "based on", "扩展", "沿用", "基于"]}
+ },
+ "forbidden_shortcuts": [
+  "把同一段里的共现当成关系证据",
+  "把综述转述（'X et al. reported …'）当成本文的直接实验结果",
+  "把跨篇的通用术语（如 'perovskite'）当作同一物理样品合并",
+  "省略 conditions 只交结论"
+ ]
+}

@@ -8,6 +8,7 @@
 | 阅读03 | 文献翻译 | `paper-translate` | [r03-translate](./r03-translate/) |
 | 阅读10 | 文献总结与结构化笔记 | `paper-notes` | [r10-notes](./r10-notes/) |
 | 阅读14 | Nanopublication 断言抽取 | `nanopub-claims` | [r14-nanopub](./r14-nanopub/) |
+| 阅读15 | 文献知识图谱构建 | `literature-kg` | [r15-kg](./r15-kg/) |
 | 写作04 | 引用管理与格式核对 | `cite-manager` | [w04-cite](./w04-cite/) |
 
 ## 约定

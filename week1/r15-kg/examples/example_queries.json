@@ -1,0 +1,65 @@
+{
+ "queries": [
+  {
+   "id": "q1",
+   "type": "entity",
+   "question": "两篇材料里关于 MAPbI3 有哪些可回查的原始位置？",
+   "args": {
+    "entity": "MAPbI3"
+   },
+   "expect": "返回该节点的别名、所有 occurrence 与全部关联边（含引文）"
+  },
+  {
+   "id": "q2",
+   "type": "neighbors",
+   "question": "与 T80 直接相连的有哪些实体、各由谁报告？",
+   "args": {
+    "entity": "T80",
+    "depth": 1
+   },
+   "expect": "两条边：stability test—measures→T80（45% 条件）、T80 的相关来源"
+  },
+  {
+   "id": "q3",
+   "type": "relation",
+   "question": "图谱里所有 improves 边，以及它们各自的原文依据是什么？",
+   "args": {
+    "relation": "improves"
+   },
+   "expect": "MA vapor treatment 两条边，各带 secondary 的引文与位置"
+  },
+  {
+   "id": "q4",
+   "type": "path",
+   "question": "从 MA vapor treatment 到 grain size 有没有带证据的路径？",
+   "args": {
+    "from": "MA vapor treatment",
+    "to": "grain size"
+   },
+   "expect": "返回路径上的边；若无路径则明确说没有，而不是编造"
+  },
+  {
+   "id": "q5",
+   "type": "conflicts",
+   "question": "跨篇的冲突/不可合并分歧有哪些？",
+   "args": {},
+   "expect": "conflicts_with 边（encapsulation vs damp heat）与 must_not_merge 记录"
+  },
+  {
+   "id": "q6",
+   "type": "keyword",
+   "question": "哪些位置提到 humidity/湿度相关的条件？",
+   "args": {
+    "keyword": "humidity"
+   },
+   "expect": "命中条件节点与带 condition 的引文位置"
+  },
+  {
+   "id": "q7",
+   "type": "stats",
+   "question": "图谱规模与关系类型分布？",
+   "args": {},
+   "expect": "节点/边计数与按类型的分布，全部边都有证据"
+  }
+ ]
+}

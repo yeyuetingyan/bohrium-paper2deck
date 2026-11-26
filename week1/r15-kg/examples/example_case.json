@@ -1,0 +1,30 @@
+{
+ "case_id": "synth-damp-heat-2papers",
+ "task": "从两篇论文材料构建一份带证据定位的知识图谱，并回答至少 3 个查询。",
+ "material": "material.json",
+ "corpus_manifest": "corpus-manifest.json",
+ "primary_material": "primary-material.json",
+ "secondary_material": "secondary-material.json",
+ "output_contract": {
+  "graph": {
+   "type": "file",
+   "default": null
+  },
+  "entities": {
+   "type": "file",
+   "default": null
+  },
+  "relations": {
+   "type": "file",
+   "default": null
+  },
+  "queries": {
+   "type": "file",
+   "default": null
+  },
+  "check": {
+   "type": "file",
+   "default": null
+  }
+ }
+}

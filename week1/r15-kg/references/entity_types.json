@@ -1,0 +1,57 @@
+{
+ "schema": "kgkit-entity-types/1.0",
+ "scope": "本文件是图谱的实体类型定义。它同时被 kg_prep.py（抽候选时打标）与 kg_assemble.py（核验时校验）读取，也是交给下游复用者看的「字段字典」。",
+ "principles": [
+  "只有论文原文里真实出现过的字符串才能成为实体节点的 label；允许做大小写/连字符归一，但不允许把模型常识补全的概念当节点。",
+  "每个实体实例必须至少带一条 occurrence，指向 source_id + paragraph_id + 原文短引。",
+  "同一个 surface 在不同论文里指不同对象时，不要合并，写进 must_not_merge。"
+ ],
+ "types": {
+  "researcher": {
+   "zh": "研究者",
+   "desc": "论文作者或正文点名的研究者/团队。只收署名列表与正文明确点名的人，不做机构推断。",
+   "patterns": ["authors_manifest", "Name et al.", "\\b[A-Z][a-z]+ [A-Z]\\. ?[A-Z][a-z]+\\b"]
+  },
+  "material": {
+   "zh": "材料/体系",
+   "desc": "论文里作为研究对象出现的物质、化合物、器件体系。必须逐字来自原文（可做下标线性化归一）。",
+   "patterns": ["chemical_formula", "material_keywords"]
+  },
+  "method": {
+   "zh": "方法/工艺",
+   "desc": "实验工艺、表征手段、计算方法、模型结构。",
+   "patterns": ["method_keywords", "method_suffix", "acronym_defined_in_text"]
+  },
+  "task": {
+   "zh": "任务/研究目标",
+   "desc": "论文要解决的问题或任务类型（如稳定性评价、效率预测、摘要生成）。",
+   "patterns": ["task_keywords"]
+  },
+  "metric": {
+   "zh": "指标",
+   "desc": "评价指标或被测物理量（含单位/条件下的口径）。数值本身不进节点，进边的 value 字段。",
+   "patterns": ["metric_keywords", "metric_acronym"]
+  },
+  "condition": {
+   "zh": "实验/评价条件",
+   "desc": "温度、湿度、时长、光照、样本量等条件。条件必须与数值一起保留，不能与结论合成。",
+   "patterns": ["value_with_unit"]
+  },
+  "dataset": {
+   "zh": "数据集/样本集合",
+   "desc": "有名字的数据集、语料、基准集合或样本集合。",
+   "patterns": ["dataset_keywords"]
+  },
+  "conclusion": {
+   "zh": "结论/判断",
+   "desc": "论文给出的、可判断真假的判断句。它是节点而不是边，便于被别的边引用为证据。",
+   "patterns": ["claim_sentence"]
+  }
+ },
+ "normalization": {
+  "case": "归一为原文首现形态，不做全大写/全小写改写",
+  "hyphen": "连字符与空格视为可归一差异（norm_hard 层比对）",
+  "subscript": "行内公式/上下标已被线性化，节点 label 保留线性化后的原文形态",
+  "forbidden": ["按常识补全未出现的同义词", "把缩写直接展开成原文未出现的全称"]
+ }
+}
