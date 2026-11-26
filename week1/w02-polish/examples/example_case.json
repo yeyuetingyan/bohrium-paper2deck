@@ -1,0 +1,74 @@
+{
+  "case_id": "synth-polish-0001",
+  "manuscript_path": "example_manuscript.md",
+  "style": "journal-article",
+  "audience": "peer reviewers and journal readers",
+  "target_language": "en",
+  "task": "Polish the manuscript for submission to an English-language journal: fix grammar, syntax, punctuation and word choice; keep every number, unit, citation and cross reference unchanged; unify terminology; do not strengthen or weaken any claim. Return the full revised text plus a per-edit record.",
+  "glossary": [
+    {
+      "term": "perovskite solar cell",
+      "preferred": "perovskite solar cell",
+      "variants": [
+        "perovskite solar cells",
+        "PSC"
+      ],
+      "note": "首次出现给出全称与缩写，其后统一用缩写"
+    },
+    {
+      "term": "power conversion efficiency",
+      "preferred": "power conversion efficiency",
+      "variants": [
+        "PCE"
+      ],
+      "note": "缩写仅在全称首次出现后使用"
+    },
+    {
+      "term": "spin-coating",
+      "preferred": "spin-coating",
+      "variants": [
+        "spin coating"
+      ],
+      "note": "连字符写法需全篇统一"
+    },
+    {
+      "term": "X-ray diffraction",
+      "preferred": "X-ray diffraction",
+      "variants": [
+        "XRD",
+        "x-ray diffraction"
+      ],
+      "note": "大写 X，缩写统一"
+    }
+  ],
+  "output_contract": {
+    "manuscript": {
+      "type": "text",
+      "default": "revised.md"
+    },
+    "edits": {
+      "type": "records",
+      "default": "edits.jsonl"
+    },
+    "diff": {
+      "type": "text",
+      "default": "diff.md"
+    },
+    "glossary": {
+      "type": "text",
+      "default": "glossary.tsv"
+    },
+    "consistency": {
+      "type": "json",
+      "default": "consistency.json"
+    },
+    "check": {
+      "type": "json",
+      "default": "check.json"
+    },
+    "review": {
+      "type": "text",
+      "default": "review.md"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+term	preferred	variants	freq	status	kind	source	note
+phenethylammonium iodide	phenethylammonium iodide	PEAI	8	locked	acronym	harvested	首次出现位置 264
+Perovskite solar cells	perovskite solar cell	PSC|perovskite solar cells	4	locked	acronym	case	首次出现给出全称与缩写，其后统一用缩写
+X-ray diffraction	X-ray diffraction	XRD|x-ray diffraction	2	locked	acronym	case	大写 X，缩写统一
+power conversion efficiency	power conversion efficiency	PCE	2	locked	acronym	case	缩写仅在全称首次出现后使用
+spin-coating	spin-coating	spin coating	1	locked	hyphenation	case	连字符写法需全篇统一
