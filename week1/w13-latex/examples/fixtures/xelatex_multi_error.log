@@ -1,0 +1,40 @@
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2024) (preloaded format=xelatex 2024.3.2)
+entering extended mode
+(main.tex
+LaTeX2e <2024-06-01>
+(C:/texlive/2024/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2024/06/01 v1.4n Standard LaTeX document class)
+(C:/texlive/2024/texmf-dist/tex/latex/amsmath/amsmath.sty)
+(sections/method.tex
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.18 \alpha = 0.85
+                     and the number of cycles was fixed.
+! Missing } inserted.
+<inserted text> 
+                }
+l.22 }
+        \end{document}
+
+! LaTeX Error: File `journal-template.cls' not found.
+
+Type X to quit or <RETURN> to proceed,
+or enter new name. (Default extension: cls)
+
+! Undefined control sequence.
+l.31 \todo
+          {finish the ablation table}
+
+! LaTeX Error: \begin{document} ended by \end{itemize}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+
+l.44 \end{itemize}
+
+Overfull \hbox (12.34567pt too wide) in paragraph at lines 51--53
+
+LaTeX Warning: Reference `tab:stability' on page 2 undefined on input line 36.
+
+LaTeX Warning: There were undefined references.

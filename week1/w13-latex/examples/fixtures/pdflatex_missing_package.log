@@ -1,0 +1,27 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.1.30)
+entering extended mode
+(main.tex
+LaTeX2e <2023-11-01> patch level 1
+(C:\tex\texmf-dist\tex\latex\base\article.cls
+Document Class: article 2023/05/17 v1.4n Standard LaTeX document class
+(C:\tex\texmf-dist\tex\latex\base\size11.clo))
+(C:\tex\texmf-dist\tex\latex\amsmath\amsmath.sty)
+(C:\tex\texmf-dist\tex\latex\hyperref\hyperref.sty)
+
+! LaTeX Error: File `siunitx.sty' not found.
+
+Type X to quit or <RETURN> to proceed,
+or enter new name. (Default extension: sty)
+
+Enter file name: 
+! Emergency stop.
+<read> 
+         
+l.42 \usepackage{siunitx}
+
+No pages of output.
+Transcript written on main.log.
+
+LaTeX Warning: Citation `chen2019' on page 1 undefined on input line 27.
+
+LaTeX Warning: There were undefined references.

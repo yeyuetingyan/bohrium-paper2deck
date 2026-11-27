@@ -1,0 +1,41 @@
+{
+  "case_id": "synth-w13-0001",
+  "task": "修复这份 LaTeX 稿件的编译问题，使其在 pdflatex 下编译通过，并保持数值与引用不变。",
+  "audience": "期刊编辑与排版人员",
+  "genre": "journal-article",
+  "language": "en",
+  "engine": "pdflatex",
+  "format_constraints": {
+    "template": "article",
+    "max_pages": 8
+  },
+  "output_contract": {
+    "revised": {
+      "required": true
+    },
+    "changes": {
+      "required": true
+    },
+    "diagnosis": {
+      "required": true
+    },
+    "checklist": {
+      "required": true
+    },
+    "source_map": {
+      "required": true
+    },
+    "check": {
+      "required": true
+    },
+    "review": {
+      "required": true
+    }
+  },
+  "material_files": [
+    "sample_project/main.tex",
+    "sample_project/sections/method.tex",
+    "sample_project/references.bib",
+    "sample_project/factsheet.md"
+  ]
+}

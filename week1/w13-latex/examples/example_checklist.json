@@ -1,0 +1,52 @@
+{
+  "schema": "tex-checklist/1.0",
+  "documentclass": {
+    "options": "11pt,a4paper",
+    "name": "article",
+    "line": 3
+  },
+  "items": [
+    {
+      "requirement": "title",
+      "present": true,
+      "evidence": "matched: \\\\title\\s*\\{",
+      "action": "无需处理"
+    },
+    {
+      "requirement": "author",
+      "present": true,
+      "evidence": "matched: \\\\author\\s*\\{",
+      "action": "无需处理"
+    },
+    {
+      "requirement": "abstract",
+      "present": true,
+      "evidence": "matched: \\\\begin\\s*\\{abstract\\}",
+      "action": "无需处理"
+    },
+    {
+      "requirement": "keywords",
+      "present": false,
+      "evidence": "源文件里缺失",
+      "action": "补上该项；若模板确实不要求，请在报告中说明"
+    },
+    {
+      "requirement": "maketitle",
+      "present": true,
+      "evidence": "matched: \\\\maketitle",
+      "action": "无需处理"
+    },
+    {
+      "requirement": "section",
+      "present": true,
+      "evidence": "matched: \\\\section\\s*[\\*{]?",
+      "action": "无需处理"
+    },
+    {
+      "requirement": "bibliography",
+      "present": true,
+      "evidence": "matched: \\\\(bibliography|addbibresource|begin\\s*\\{thebibliography\\})",
+      "action": "无需处理"
+    }
+  ]
+}

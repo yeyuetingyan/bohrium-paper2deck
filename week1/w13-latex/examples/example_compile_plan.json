@@ -1,0 +1,26 @@
+{
+  "schema": "tex-compile-plan/1.0",
+  "engine": "pdflatex",
+  "engine_reason": "源码 %!TEX program 指定 pdflatex；只用 ASCII 与标准宏包",
+  "commands": [
+    "pdflatex -interaction=nonstopmode -halt-on-error -file-line-error main.tex",
+    "bibtex main",
+    "pdflatex -interaction=nonstopmode -halt-on-error -file-line-error main.tex",
+    "pdflatex -interaction=nonstopmode -halt-on-error -file-line-error main.tex"
+  ],
+  "rounds": 3,
+  "bib_tool": "bibtex",
+  "requires": [
+    "article.cls",
+    "amsmath",
+    "graphicx",
+    "booktabs",
+    "hyperref",
+    "cleveref"
+  ],
+  "expected_outputs": [
+    "main.pdf",
+    "main.log"
+  ],
+  "notes": "两轮用于交叉引用收敛，第三轮用于目录与页码稳定；宏包需在 TeX 发行版中可用。"
+}

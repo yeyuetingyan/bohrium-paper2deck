@@ -1,0 +1,75 @@
+% !TEX program = pdflatex
+% 合成样例：用于测试 LaTeX Skill 的问题检出与修复流程（不是真实投稿）
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+\title{Stability of $\mathrm{MAPbI_3}$ Solar Cells under Damp Heat}
+\author{Sample Author}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We study the damp-heat stability of MAPbI3 solar cells and report a champion
+power conversion efficiency of 23.5\% with an open-circuit voltage of 1.12~V.
+\end{abstract}
+
+\section{Introduction}
+Perovskite solar cells have reached certified efficiencies above 25\% \cite{smith2021}.
+The operational stability remains the limiting factor for deployment \cite{li2020}.
+Recent work on passivation shows promise, but the reported gains
+depend strongly on the encapsulation scheme.
+\section{Methods}
+% --- inlined from sections/method.tex (原文未改动) ---
+% 子文件：方法段
+Samples were spin-coated at 3000~rpm from a 1.2~M precursor solution.
+Absorbance was recorded between 300--800~nm with a UV--vis spectrometer.
+Current--voltage curves were measured under AM1.5G illumination.
+Repeated measurements used a fixed random seed (1234) for the fitting routine.
+
+\section{Results}
+Devices retained 78\% of their initial efficiency after 1000~h at 45\% relative
+humidity, consistent with \cref{tab:stability} and \cref{sec:discussions}.
+The fill factor settled at 78\% in all three independent runs, as defined in \eqref{eq:efficiency}.
+
+\begin{equation}
+\label{eq:efficiency}
+\eta = \frac{P_{\max}}{P_{\mathrm{in}}} = \frac{V_{\mathrm{oc}}\,J_{\mathrm{sc}}\,\mathrm{FF}}{P_{\mathrm{in}}}
+\end{equation}
+
+\begin{table}[t]
+\centering
+\caption{Stability summary at 85~$^\circ$C and 85\% RH.}
+\label{tab:stability}
+\begin{tabular}{lcc}
+\toprule
+Sample & $T_{80}$ (h) & Retention (\%) \\
+\midrule
+Untreated & 300 & 41 \\
+PEAI-treated & 1000 & 78 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Discussion}
+\label{sec:discussions}
+The improvement is consistent with reduced surface recombination
+\begin{itemize}
+\item lower non-radiative loss
+\item suppressed ion migration
+\end{itemize}
+
+\section{Conclusion}
+Passivation raises the damp-heat lifetime by a factor of three.
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

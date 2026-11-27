@@ -1,0 +1,103 @@
+{
+  "schema": "tex-source-map/1.0",
+  "items": [
+    {
+      "item": "冠军器件 PCE 23.5%",
+      "value": "23.5",
+      "quote": "- 光电性能：冠军器件 PCE 23.5%，开路电压 1.12 V，填充因子 78%。",
+      "source": "factsheet.md",
+      "kind": "number"
+    },
+    {
+      "item": "开路电压 1.12 V",
+      "value": "1.12",
+      "quote": "- 光电性能：冠军器件 PCE 23.5%，开路电压 1.12 V，填充因子 78%。",
+      "source": "factsheet.md",
+      "kind": "number"
+    },
+    {
+      "item": "填充因子 78%",
+      "value": "78%",
+      "quote": "- 光电性能：冠军器件 PCE 23.5%，开路电压 1.12 V，填充因子 78%。",
+      "source": "factsheet.md",
+      "kind": "number"
+    },
+    {
+      "item": "PEAI 处理样品 T80 = 1000 h",
+      "value": "1000",
+      "quote": "- 稳定性：85 C / 85% RH 环境下，未处理样品 T80 = 300 h，PEAI 处理样品 T80 = 1000 h；",
+      "source": "factsheet.md",
+      "kind": "number"
+    },
+    {
+      "item": "未处理样品 T80 = 300 h",
+      "value": "300",
+      "quote": "- 制备：1.2 M 前驱液，3000 rpm 旋涂，退火 100 C / 10 min。",
+      "source": "factsheet.md",
+      "kind": "number"
+    },
+    {
+      "item": "45% RH 条件下 1000 h 保持 78%",
+      "value": "45%",
+      "quote": "45% RH 条件下 1000 h 后保持初始效率的 78%。",
+      "source": "factsheet.md",
+      "kind": "number"
+    },
+    {
+      "item": "85 C / 85% RH 环境",
+      "value": "85 C",
+      "quote": "- 稳定性：85 C / 85% RH 环境下，未处理样品 T80 = 300 h，PEAI 处理样品 T80 = 1000 h；",
+      "source": "factsheet.md",
+      "kind": "number"
+    },
+    {
+      "item": "拟合程序随机种子 1234",
+      "value": "1234",
+      "quote": "- 复现设置：拟合程序随机种子固定为 1234；三个独立器件各测三次。",
+      "source": "factsheet.md",
+      "kind": "number"
+    },
+    {
+      "item": "3000 rpm 旋涂",
+      "value": "3000",
+      "quote": "- 制备：1.2 M 前驱液，3000 rpm 旋涂，退火 100 C / 10 min。",
+      "source": "factsheet.md",
+      "kind": "number"
+    },
+    {
+      "item": "吸收测试覆盖 300--800 nm",
+      "value": "300--800",
+      "quote": "- 光谱：吸收测试覆盖 300--800 nm。",
+      "source": "factsheet.md",
+      "kind": "number"
+    },
+    {
+      "item": "1.2 M 前驱液",
+      "value": "1.2",
+      "quote": "- 制备：1.2 M 前驱液，3000 rpm 旋涂，退火 100 C / 10 min。",
+      "source": "factsheet.md",
+      "kind": "number"
+    },
+    {
+      "item": "smith2021",
+      "value": "smith2021",
+      "quote": "Perovskite solar cells have reached certified efficiencies above 25%",
+      "source": "main.tex",
+      "kind": "citation"
+    },
+    {
+      "item": "li2020",
+      "value": "li2020",
+      "quote": "The operational stability remains the limiting factor for deployment",
+      "source": "main.tex",
+      "kind": "citation"
+    },
+    {
+      "item": "eq:efficiency",
+      "value": "eq:efficiency",
+      "quote": "definition of power conversion efficiency",
+      "source": "main.tex",
+      "kind": "citation"
+    }
+  ]
+}

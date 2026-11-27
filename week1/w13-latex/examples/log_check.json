@@ -1,0 +1,80 @@
+{
+  "pass": true,
+  "results": [
+    {
+      "log": "pdflatex_missing_package.log",
+      "got": {
+        "errors": 1,
+        "root_errors": 1,
+        "categories": [
+          "missing_package"
+        ],
+        "files": [
+          "main.tex"
+        ],
+        "lines": [
+          42
+        ],
+        "undefined_cites": [
+          "chen2019"
+        ]
+      },
+      "expected": {
+        "errors": 1,
+        "category": "missing_package",
+        "file": "main.tex",
+        "line": 42,
+        "warnings": {
+          "undefined_cites": [
+            "chen2019"
+          ]
+        }
+      },
+      "pass": true,
+      "fail": []
+    },
+    {
+      "log": "xelatex_multi_error.log",
+      "got": {
+        "errors": 5,
+        "root_errors": 4,
+        "categories": [
+          "math_syntax",
+          "brace_error",
+          "missing_class",
+          "missing_package",
+          "env_mismatch"
+        ],
+        "files": [
+          "sections/method.tex"
+        ],
+        "lines": [
+          18,
+          22,
+          31,
+          44
+        ],
+        "undefined_cites": []
+      },
+      "expected": {
+        "errors": 5,
+        "root_errors": 4,
+        "categories": [
+          "brace_error",
+          "missing_class",
+          "math_syntax",
+          "env_mismatch"
+        ],
+        "file": "sections/method.tex",
+        "lines": [
+          18,
+          22,
+          31,
+          44
+        ]
+      },
+      "pass": true,
+      "fail": []
+    }
+  ]
+}

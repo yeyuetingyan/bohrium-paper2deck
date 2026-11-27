@@ -1,0 +1,127 @@
+{
+  "schema": "tex-diagnosis/1.0",
+  "engine": "pdflatex",
+  "items": [
+    {
+      "kind": "brace_unbalanced",
+      "level": "high",
+      "file": "main.tex",
+      "line": null,
+      "detail": "花括号不配对（{，depth=1）",
+      "root_cause": "花括号不配对（{，depth=1）",
+      "fix": "按行号定位，补齐或删除多余的 { }。",
+      "state": "fixed",
+      "evidence": "花括号不配对（{，depth=1）"
+    },
+    {
+      "kind": "unclosed_env",
+      "level": "high",
+      "file": "main.tex",
+      "line": 57,
+      "detail": "环境 itemize 未正确配对",
+      "root_cause": "环境 itemize 未正确配对",
+      "fix": "每个 \\begin{env} 必须有对应的 \\end{env}。",
+      "state": "fixed",
+      "evidence": "环境 itemize 未正确配对"
+    },
+    {
+      "kind": "unclosed_env",
+      "level": "high",
+      "file": "main.tex",
+      "line": 16,
+      "detail": "环境 document 未正确配对",
+      "root_cause": "环境 document 未正确配对",
+      "fix": "每个 \\begin{env} 必须有对应的 \\end{env}。",
+      "state": "fixed",
+      "evidence": "环境 document 未正确配对"
+    },
+    {
+      "kind": "placeholder_left",
+      "level": "medium",
+      "file": "main.tex",
+      "line": 29,
+      "detail": "残留占位标记 TODO",
+      "root_cause": "残留占位标记 TODO",
+      "fix": "交付前清掉占位或改成正式内容。",
+      "state": "fixed",
+      "evidence": "残留占位标记 TODO"
+    },
+    {
+      "kind": "package_order",
+      "level": "medium",
+      "file": "main.tex",
+      "line": null,
+      "detail": "cleveref 在 hyperref 之后加载",
+      "root_cause": "cleveref 在 hyperref 之后加载",
+      "fix": "hyperref 通常应最后加载；cleveref 应在 hyperref 之后加载，否则交叉引用格式会失效。",
+      "state": "accepted",
+      "evidence": "cleveref 在 hyperref 之后加载"
+    },
+    {
+      "kind": "table_no_rules",
+      "level": "low",
+      "file": "main.tex",
+      "line": 43,
+      "detail": "table 没有 \\hline/\\toprule 等横线",
+      "root_cause": "table 没有 \\hline/\\toprule 等横线",
+      "fix": "学术表格一般用三线表（booktabs 的 \\toprule/\\midrule/\\bottomrule）。",
+      "state": "fixed",
+      "evidence": "table 没有 \\hline/\\toprule 等横线"
+    },
+    {
+      "kind": "table_column_mismatch",
+      "level": "high",
+      "file": "main.tex",
+      "line": 47,
+      "detail": "tabular 声明 3 列，但有行给出别的列数：[{'row': 1, 'cells': 5}, {'row': 2, 'cells': 4}]",
+      "root_cause": "tabular 声明 3 列，但有行给出别的列数：[{'row': 1, 'cells': 5}, {'row': 2, 'cells': 4}]",
+      "fix": "表列数不一致会让 LaTeX 报 'Extra alignment tab'；补齐或合并多余 &。",
+      "state": "fixed",
+      "evidence": "tabular 声明 3 列，但有行给出别的列数：[{'row': 1, 'cells': 5}, {'row': 2, 'cells': 4}]"
+    },
+    {
+      "kind": "table_no_rules",
+      "level": "low",
+      "file": "main.tex",
+      "line": 47,
+      "detail": "tabular 没有 \\hline/\\toprule 等横线",
+      "root_cause": "tabular 没有 \\hline/\\toprule 等横线",
+      "fix": "学术表格一般用三线表（booktabs 的 \\toprule/\\midrule/\\bottomrule）。",
+      "state": "fixed",
+      "evidence": "tabular 没有 \\hline/\\toprule 等横线"
+    },
+    {
+      "kind": "undefined_ref",
+      "level": "high",
+      "file": "main.tex",
+      "line": 36,
+      "detail": "\\cref{sec:discussion} 引用了不存在的 label",
+      "root_cause": "\\cref{sec:discussion} 引用了不存在的 label",
+      "fix": "补 \\label{sec:discussion} 或修正键名。",
+      "state": "fixed",
+      "evidence": "\\cref{sec:discussion} 引用了不存在的 label"
+    },
+    {
+      "kind": "undefined_citation",
+      "level": "high",
+      "file": "main.tex",
+      "line": 27,
+      "detail": "\\cite{chen2019} 在文献库里找不到",
+      "root_cause": "\\cite{chen2019} 在文献库里找不到",
+      "fix": "补 bib 条目或修正键名。",
+      "state": "needs_confirm",
+      "evidence": "\\cite{chen2019} 在文献库里找不到"
+    },
+    {
+      "kind": "unused_label",
+      "level": "low",
+      "file": "main.tex",
+      "line": 55,
+      "detail": "label sec:discussions 没有被任何地方引用",
+      "root_cause": "label sec:discussions 没有被任何地方引用",
+      "fix": "删除或补引用。",
+      "state": "fixed",
+      "evidence": "label sec:discussions 没有被任何地方引用"
+    }
+  ]
+}
