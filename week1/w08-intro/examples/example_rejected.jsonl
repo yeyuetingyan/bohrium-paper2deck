@@ -1,0 +1,9 @@
+{"case": "b1_unknown_citation", "expect_issue": ["claim_citation_unknown"], "observed_issue": ["claim_citation_unknown"], "status": "partial", "exit_code": 0, "note": "只破坏一处，预期命中 claim_citation_unknown"}
+{"case": "b2_quote_rewritten", "expect_issue": ["claim_source_not_in_material"], "observed_issue": ["claim_source_not_in_material"], "status": "partial", "exit_code": 0, "note": "只破坏一处，预期命中 claim_source_not_in_material"}
+{"case": "b3_gap_no_citation", "expect_issue": ["gap_claim_without_citation"], "observed_issue": ["gap_claim_without_citation"], "status": "partial", "exit_code": 0, "note": "只破坏一处，预期命中 gap_claim_without_citation"}
+{"case": "b4_contrib_no_anchor", "expect_issue": ["contribution_anchor_missing"], "observed_issue": ["contribution_anchor_missing"], "status": "partial", "exit_code": 0, "note": "只破坏一处，预期命中 contribution_anchor_missing"}
+{"case": "b5_number_not_in_material", "expect_issue": ["number_not_in_material"], "observed_issue": ["number_not_in_material"], "status": "partial", "exit_code": 0, "note": "只破坏一处，预期命中 number_not_in_material"}
+{"case": "b6_citation_metadata", "expect_issue": ["citation_metadata_mismatch"], "observed_issue": ["citation_metadata_mismatch"], "status": "ok", "exit_code": 0, "note": "只破坏一处，预期命中 citation_metadata_mismatch"}
+{"case": "b7_group_member_unknown", "expect_issue": ["group_member_unknown"], "observed_issue": ["group_member_unknown"], "status": "partial", "exit_code": 0, "note": "只破坏一处，预期命中 group_member_unknown"}
+{"case": "b8_no_introduction", "expect_issue": ["introduction_missing"], "observed_issue": ["introduction_missing"], "status": "failed", "exit_code": 2, "note": "只破坏一处，预期命中 introduction_missing"}
+{"case": "b9_overclaim", "expect_issue": ["group_summary_overclaim"], "observed_issue": ["group_summary_overclaim"], "status": "ok", "exit_code": 0, "note": "只破坏一处，预期命中 group_summary_overclaim"}

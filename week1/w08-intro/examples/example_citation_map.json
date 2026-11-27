@@ -1,0 +1,110 @@
+[
+  {
+    "key": "n:1",
+    "bibtex_key": "zhang2021mapbi3",
+    "authors": "Zhang, Wei and Liu, Yan",
+    "year": "2021",
+    "venue": "Nature Energy",
+    "title": "Certified efficiency progress of metal halide perovskite solar cells",
+    "doi": "10.0000/synth.2021.0001"
+  },
+  {
+    "key": "n:2",
+    "bibtex_key": "chen2020stability",
+    "authors": "Chen, Hui and Park, Jimin",
+    "year": "2020",
+    "venue": "Joule",
+    "title": "Operational stability of perovskite photovoltaics: mechanisms and metrics",
+    "doi": "10.0000/synth.2020.0002"
+  },
+  {
+    "key": "n:3",
+    "bibtex_key": "liu2019moisture",
+    "authors": "Liu, Yan and Zhang, Wei",
+    "year": "2019",
+    "venue": "ACS Energy Letters",
+    "title": "Moisture-induced degradation pathways in methylammonium lead iodide",
+    "doi": "10.0000/synth.2019.0003"
+  },
+  {
+    "key": "n:4",
+    "bibtex_key": "wang2022encapsulation",
+    "authors": "Wang, Lei and Sun, Qi",
+    "year": "2022",
+    "venue": "Solar RRL",
+    "title": "Epoxy encapsulation extends T80 lifetime of perovskite modules",
+    "doi": "10.0000/synth.2022.0004"
+  },
+  {
+    "key": "n:5",
+    "bibtex_key": "kumar2018spincoat",
+    "authors": "Kumar, Raj and Silva, Ana",
+    "year": "2018",
+    "venue": "Thin Solid Films",
+    "title": "Spin coating versus vapor assisted growth of perovskite films",
+    "doi": "10.0000/synth.2018.0005"
+  },
+  {
+    "key": "n:6",
+    "bibtex_key": "tanaka2020vapor",
+    "authors": "Tanaka, Ken and Mori, Aya",
+    "year": "2020",
+    "venue": "Crystal Growth and Design",
+    "title": "Vapor assisted growth yields micrometer scale grains",
+    "doi": "10.0000/synth.2020.0006"
+  },
+  {
+    "key": "n:7",
+    "bibtex_key": "nguyen2021hysteresis",
+    "authors": "Nguyen, Binh and Tran, Lan",
+    "year": "2021",
+    "venue": "Advanced Materials",
+    "title": "Hysteresis suppression in solution processed perovskite devices",
+    "doi": "10.0000/synth.2021.0007"
+  },
+  {
+    "key": "n:8",
+    "bibtex_key": "garcia2019blade",
+    "authors": "Garcia, Marta and Lopez, Diego",
+    "year": "2019",
+    "venue": "Progress in Photovoltaics",
+    "title": "Blade coating of perovskite films at low coating speed",
+    "doi": "10.0000/synth.2019.0008"
+  },
+  {
+    "key": "n:9",
+    "bibtex_key": "jones2023peai",
+    "authors": "Jones, Emily and Brown, Tom",
+    "year": "2023",
+    "venue": "Energy and Environmental Science",
+    "title": "Phenethylammonium iodide passivation improves open circuit voltage",
+    "doi": "10.0000/synth.2023.0009"
+  },
+  {
+    "key": "n:10",
+    "bibtex_key": "ahmed2022strain",
+    "authors": "Ahmed, Omar and Rossi, Luca",
+    "year": "2022",
+    "venue": "Journal of Applied Crystallography",
+    "title": "Lattice strain quantification in perovskite films by X-ray diffraction",
+    "doi": "10.0000/synth.2022.0010"
+  },
+  {
+    "key": "n:11",
+    "bibtex_key": "sato2024lowlight",
+    "authors": "Sato, Rin and Ito, Mei",
+    "year": "2024",
+    "venue": "Solar Energy Materials",
+    "title": "Low light performance of perovskite solar cells for indoor applications",
+    "doi": "10.0000/synth.2024.0011"
+  },
+  {
+    "key": "n:12",
+    "bibtex_key": "moreau2017review",
+    "authors": "Moreau, Claire and Dubois, Paul",
+    "year": "2017",
+    "venue": "Materials Today",
+    "title": "A review of characterization techniques for hybrid perovskites",
+    "doi": "10.0000/synth.2017.0012"
+  }
+]

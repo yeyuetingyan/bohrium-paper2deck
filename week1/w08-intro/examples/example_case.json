@@ -1,0 +1,45 @@
+{
+  "case_id": "synth-w08-0001",
+  "task": "依据事实底稿与文献库，写出可直接进入论文的引言与相关工作（研究背景、相关工作、研究空白、贡献），每条论断都必须绑定引用与来源，不得引入材料外事实。",
+  "audience": "Journal of Materials Chemistry A 的审稿人与读者",
+  "genre": "journal-article",
+  "language": "en",
+  "format_constraints": [
+    "四节齐全并按 研究背景 / 相关工作 / 研究空白 / 贡献 顺序承接",
+    "引用使用编号制，与 bibliography.bib 中的条目一致",
+    "不得使用文献库以外的文献",
+    "数字、单位、图表指向必须与事实底稿逐字一致"
+  ],
+  "material_path": "example_material.md",
+  "bibliography_path": "example_bibliography.bib",
+  "output_contract": {
+    "introduction": {
+      "description": "可直接进入论文的引言与相关工作正文（研究背景/相关工作/研究空白/贡献四节齐全）",
+      "required": true
+    },
+    "claims": {
+      "description": "逐条论断的引用绑定与来源定位",
+      "required": true
+    },
+    "contributions": {
+      "description": "贡献条目及其正文/图表/结果锚点",
+      "required": true
+    },
+    "groups": {
+      "description": "相关工作的分组与比较维度",
+      "required": true
+    },
+    "citation_map": {
+      "description": "引用 key 与文献元数据（作者/年份/来源）的对照",
+      "required": true
+    },
+    "check": {
+      "description": "自动核验报告",
+      "required": true
+    },
+    "review": {
+      "description": "人工复核清单与边界说明",
+      "required": false
+    }
+  }
+}
