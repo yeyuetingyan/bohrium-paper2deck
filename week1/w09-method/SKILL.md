@@ -9,7 +9,7 @@ description: 把实验材料（配置、日志、脚本、数据说明、事实�
 
 ## 何时触发
 
-- 要把一份实验记录（`config.yaml` / `train.log` / 训练脚本 / 数据说明 / 事实底稿）写成方法章节。
+- 要把一份实验记录（`config.yaml` / `train.log.txt` / 训练脚本 / 数据说明 / 事实底稿）写成方法章节。
 - 要检查已有 methods 章节：数值是不是材料里的、划分和版本对不对、复现清单缺不缺项。
 - 要整理参数表（每个参数的取值 + 来源文件与行号）。
 - 要把「做得着」变成清单：版本、环境、种子、命令、检查点。
@@ -94,12 +94,12 @@ python scripts/method_assemble.py --case /input/case.json --work /app/work --out
 
 ## 最小调用示例
 
-包内 `examples/` 自带一套合成案例（`example_case.json` + `sample_materials/` 五份材料 + 六份示例交付物 + `example_rejected.jsonl` 九条反例）：
+包内 `examples/` 自带一套合成案例（`example_case.json` + `sample_materials/` 五份材料 + 六份示例交付物 + `example_rejected.json` 九条反例）：
 
 ```bash
 python scripts/method_prep.py --case examples/example_case.json --out /tmp/work
 python scripts/method_assemble.py --case examples/example_case.json --work /tmp/work \
-  --methods examples/example_methods.md --params examples/example_params.tsv \
+  --methods examples/example_methods.md --params examples/example_params.txt \
   --elements examples/example_elements.json --gaps examples/example_gaps.json \
   --repro examples/example_repro.json --source-map examples/example_source_map.json --out /tmp/out
 # → status ok / high 0 / medium 0 / low 1

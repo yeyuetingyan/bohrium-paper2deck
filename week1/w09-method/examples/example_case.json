@@ -49,7 +49,7 @@
   "material_files": [
     "sample_materials/factsheet.md",
     "sample_materials/config.yaml",
-    "sample_materials/train.log",
+    "sample_materials/train.log.txt",
     "sample_materials/prepare_data.py",
     "sample_materials/dataset_notes.md"
   ]

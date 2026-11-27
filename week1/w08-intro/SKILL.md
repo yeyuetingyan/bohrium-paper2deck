@@ -123,7 +123,7 @@ python scripts/intro_prep.py --case examples/example_case.json --out /app/work
 python scripts/intro_assemble.py --case examples/example_case.json --work /app/work --out /app/output
 ```
 
-`examples/` 里给出了同一案例的完整输入与产出（`example_material.md`、`example_bibliography.bib`、`example_introduction.md`、`example_claims.jsonl`、`example_contributions.jsonl`、`example_groups.jsonl`、`example_citation_map.json`、`example_gaps.jsonl`、`example_terms.jsonl`），以及**九条"只破坏一处"的反例**（`example_rejected.jsonl`）——每条都标注了预期命中的检查项。**示例中的科研内容是合成的示意材料**，不代表真实文献结论。
+`examples/` 里给出了同一案例的完整输入与产出（`example_material.md`、`example_bibliography.bib`、`example_introduction.md`、`example_claims.json`、`example_contributions.json`、`example_groups.json`、`example_citation_map.json`、`example_gaps.json`、`example_terms.json`），以及**九条"只破坏一处"的反例**（`example_rejected.json`）——每条都标注了预期命中的检查项。**示例中的科研内容是合成的示意材料**，不代表真实文献结论。
 
 ## 异常与降级
 

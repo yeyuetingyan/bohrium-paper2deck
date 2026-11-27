@@ -34,19 +34,19 @@ python scripts/polish_prep.py --case out-demo/case.json --out out-demo/work
 
 # 第 2 步：Agent 依据 out-demo/work/segments.md 改写
 #   产出 out-demo/revised.md、out-demo/edits.jsonl、out-demo/glossary.tsv
-#   （仓库里的 examples/example_revised.md + example_edits.jsonl + example_glossary.tsv 就是一份"称职 Agent"的样例答卷）
+#   （仓库里的 examples/example_revised.md + example_edits.json + example_glossary.txt 就是一份"称职 Agent"的样例答卷）
 
 # 第 3 步
 python scripts/polish_assemble.py --case out-demo/case.json --work out-demo/work \
-  --revised examples/example_revised.md --edits examples/example_edits.jsonl \
-  --glossary examples/example_glossary.tsv --out out-demo/output
+  --revised examples/example_revised.md --edits examples/example_edits.json \
+  --glossary examples/example_glossary.txt --out out-demo/output
 ```
 
 样例答卷的实测结果：`status=ok`、`protected_preserved_rate=1.0`、`similarity=0.937`、`edits=14`（全部带理由）、`term_unified_rate=1.0`、`issues_high=0`、`issues_medium=0`、`issues_low=1`（唯一一条 low 是"已在修改说明中声明"的 `always` 删除提示）。
 
 ## 反向样例：证明检查器真的会拦
 
-`examples/example_rejected.jsonl` 收录 9 个"只破坏一处"的案例，每个都写出了预期命中的检查项与实测结果：
+`examples/example_rejected.json` 收录 9 个"只破坏一处"的案例，每个都写出了预期命中的检查项与实测结果：
 
 | 案例 | 破坏方式 | 命中检查 |
 |---|---|---|

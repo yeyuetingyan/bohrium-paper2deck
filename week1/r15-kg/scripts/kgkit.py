@@ -430,18 +430,29 @@ def dump_jsonl(path, rows):
 
 
 def load_jsonl(path):
+    """读 JSONL；也接受 JSON 数组形态（[ {...}, ... ]），两种写法都当行记录处理。"""
     rows = []
     if not path or not os.path.exists(path):
         return rows
     with open(path, encoding="utf-8") as f:
-        for i, line in enumerate(f, start=1):
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                rows.append(json.loads(line))
-            except Exception as e:
-                rows.append({"__parse_error__": f"line {i}: {e}", "raw": line[:120]})
+        raw = f.read().strip()
+    if not raw:
+        return rows
+    if raw.startswith("["):
+        try:
+            doc = json.loads(raw)
+            if isinstance(doc, list):
+                return doc
+        except Exception as e:
+            return [{"__parse_error__": f"json array: {e}", "raw": raw[:120]}]
+    for i, line in enumerate(raw.splitlines(), start=1):
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            rows.append(json.loads(line))
+        except Exception as e:
+            rows.append({"__parse_error__": f"line {i}: {e}", "raw": line[:120]})
     return rows
 
 

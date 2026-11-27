@@ -50,8 +50,8 @@ r14-nanopub/
 └── examples/
     ├── make_sample_paper.py      合成演示论文（纯标准库手写 PDF，不依赖任何真实文献）
     ├── example_case.json         最小 case（含 output_contract）
-    ├── example_assertions.jsonl  20 条通过样例（含"一句拆两条"、七类关系、条件与量化）
-    └── example_rejected.jsonl    5 条故意被拒样例（每条带 nanopub_note 说明预期命中哪个检查）
+    ├── example_assertions.json  20 条通过样例（含"一句拆两条"、七类关系、条件与量化）
+    └── example_rejected.json    5 条故意被拒样例（每条带 nanopub_note 说明预期命中哪个检查）
 ```
 
 ## 怎么跑
@@ -65,7 +65,7 @@ python3 scripts/nanoextract.py --pdf /tmp/sample.pdf --out /tmp/work
 #   => {"status":"ok","page_count":2,"source_count":21,"candidate_count":25,...}
 
 # 第二步：读 work/candidates.md，把保留的断言写进 work/assertions.jsonl
-#         （20 条示范见 examples/example_assertions.jsonl）
+#         （20 条示范见 examples/example_assertions.json）
 
 # 第三步：核验 + 导出
 python3 scripts/nanoassemble.py --work /tmp/work \
@@ -78,7 +78,7 @@ python3 scripts/nanoassemble.py --work /tmp/work \
 
 ```bash
 python3 scripts/nanoassemble.py --work /tmp/work \
-        --assertions examples/example_rejected.jsonl --out /tmp/output-rej
+        --assertions examples/example_rejected.json --out /tmp/output-rej
 #   => {"status":"partial","assertions":5,"with_issues":5,...}
 ```
 
@@ -86,6 +86,6 @@ python3 scripts/nanoassemble.py --work /tmp/work \
 
 - **字段字典**（`references/field-dictionary.md`）与 **schema `nanokit/1.0`** 固定，任何人可以拿 `assertions.jsonl` 直接做下游解析。
 - **受控词表可替换**：换领域的线索词只需替换 `references/relation_vocab.json`，脚本不动。
-- **20 条断言样例 + 5 条被拒样例**构成最小题集：`example_assertions.jsonl` 是回归测试的正例，`example_rejected.jsonl` 是检查器的负例（每条注明预期命中项）。
+- **20 条断言样例 + 5 条被拒样例**构成最小题集：`example_assertions.json` 是回归测试的正例，`example_rejected.json` 是检查器的负例（每条注明预期命中项）。
 - **中间的 `sources.json` / `candidates.jsonl`** 也是标准 JSON，可以被别的工具直接消费（例如换一个抽取策略只替换第一步）。
 - 解析核 `paperkit.py` 与本系列其它 Skill 共用，换题不必重写版面解析。

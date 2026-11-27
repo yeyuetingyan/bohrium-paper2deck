@@ -1,0 +1,40 @@
+[
+ {
+  "contrib_id": "k1",
+  "text": "We propose a two-step route that combines vapor-assisted growth with phenethylammonium iodide passivation.",
+  "anchors": [
+   {
+    "kind": "section",
+    "ref": "4. Contributions",
+    "quote": "We propose a two-step route that combines vapor-assisted growth with PEAI passivation"
+   },
+   {
+    "kind": "result",
+    "ref": "optimized device",
+    "quote": "The optimized device reached 23.5% PCE"
+   }
+  ]
+ },
+ {
+  "contrib_id": "k2",
+  "text": "The optimized device reaches 23.5% power conversion efficiency, an open-circuit voltage of 1.12 V, and a short-circuit current density of 23.5 mA cm-2.",
+  "anchors": [
+   {
+    "kind": "result",
+    "ref": "device metrics",
+    "quote": "an open-circuit voltage of 1.12 V, and a short-circuit current density of 23.5 mA cm-2"
+   }
+  ]
+ },
+ {
+  "contrib_id": "k3",
+  "text": "The T80 lifetime improves to 1000 h at 45% relative humidity and to 420 h at 85% relative humidity.",
+  "anchors": [
+   {
+    "kind": "result",
+    "ref": "stability test",
+    "quote": "The T80 lifetime improved to 1000 h at 45% relative humidity, and to 420 h at 85% relative humidity"
+   }
+  ]
+ }
+]

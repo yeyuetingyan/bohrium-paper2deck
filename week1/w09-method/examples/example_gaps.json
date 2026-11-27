@@ -23,7 +23,7 @@
             "value": "64",
             "sources": [
               {
-                "source": "train.log",
+                "source": "train.log.txt",
                 "line": 6
               }
             ]

@@ -2,7 +2,7 @@
   "pass": true,
   "results": [
     {
-      "log": "pdflatex_missing_package.log",
+      "log": "pdflatex_missing_package.log.txt",
       "got": {
         "errors": 1,
         "root_errors": 1,
@@ -34,7 +34,7 @@
       "fail": []
     },
     {
-      "log": "xelatex_multi_error.log",
+      "log": "xelatex_multi_error.log.txt",
       "got": {
         "errors": 5,
         "root_errors": 4,

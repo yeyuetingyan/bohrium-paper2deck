@@ -36,7 +36,7 @@ r03-translate/
     ├── make_sample_paper.py      合成演示论文（纯标准库手写 PDF，不依赖任何真实文献）
     ├── example_case.json         最小 case（含 output_contract）
     ├── example_translations.json 18 段演示译文（带译法依据 note）
-    └── example_glossary.tsv      9 条锁定术语示例
+    └── example_glossary.txt      9 条锁定术语示例
 ```
 
 ## 怎么跑
@@ -66,7 +66,7 @@ python examples/make_sample_paper.py /tmp/sample.pdf
 python scripts/translate_prep.py --pdf /tmp/sample.pdf --out /tmp/work
 python scripts/translate_assemble.py --segments /tmp/work/segments.json \
     --translations examples/example_translations.json \
-    --glossary examples/example_glossary.tsv --out /tmp/out
+    --glossary examples/example_glossary.txt --out /tmp/out
 ```
 
 实测输出（Python 3.14.6 / PyMuPDF）：

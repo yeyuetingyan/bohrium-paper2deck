@@ -29,7 +29,7 @@
  "action": "本稿按日志的 64 写入正文，若实际以配置为准请告知，我会同步改正文与 params.tsv。",
  "conflict": {"key": "batch_size",
               "values": [{"value": "32", "sources": [{"source": "config.yaml", "line": 14}]},
-                         {"value": "64", "sources": [{"source": "train.log", "line": 6}]}]}}
+                         {"value": "64", "sources": [{"source": "train.log.txt", "line": 6}]}]}}
 ```
 
 ## 四、冲突判定（不算冲突的情形）

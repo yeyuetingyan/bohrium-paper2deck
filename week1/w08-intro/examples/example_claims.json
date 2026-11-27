@@ -1,0 +1,197 @@
+[
+ {
+  "claim_id": "c1",
+  "claim_kind": "background_fact",
+  "text": "certified power conversion efficiency of 25% [1], yet their operational stability remains the main obstacle to commercialization [2]",
+  "citations": [
+   "n:1"
+  ],
+  "source": {
+   "para_id": "material",
+   "quote": "certified power conversion efficiency (PCE) above 25% [1]"
+  }
+ },
+ {
+  "claim_id": "c2",
+  "claim_kind": "background_fact",
+  "text": "operational stability remains the main obstacle to commercialization [2]",
+  "citations": [
+   "n:2"
+  ],
+  "source": {
+   "para_id": "material",
+   "quote": "operational stability remains the main obstacle to commercialization"
+  }
+ },
+ {
+  "claim_id": "c3",
+  "claim_kind": "background_fact",
+  "text": "Moisture ingress is a widely reported trigger of irreversible degradation of the perovskite lattice [3]",
+  "citations": [
+   "n:3"
+  ],
+  "source": {
+   "para_id": "material",
+   "quote": "Moisture ingress is widely reported to trigger irreversible degradation of the perovskite lattice"
+  }
+ },
+ {
+  "claim_id": "c4",
+  "claim_kind": "background_fact",
+  "text": "extends the T80 lifetime from 300 h to 1000 h at 45% relative humidity [4]",
+  "citations": [
+   "n:4"
+  ],
+  "source": {
+   "para_id": "material",
+   "quote": "Encapsulation strategies based on epoxy seals extend the T80 lifetime from 300 h to 1000 h at 45% relative humidity"
+  }
+ },
+ {
+  "claim_id": "c5",
+  "claim_kind": "related_work",
+  "text": "spin-coated films show larger grain size but poorer uniformity [5], vapor-assisted growth reaches micrometer-scale grains with a surface roughness of 18 nm [6], and blade coating at a coating speed of 5 mm s-1 yields an efficiency of 19",
+  "citations": [
+   "n:5"
+  ],
+  "source": {
+   "para_id": "material",
+   "quote": "Spin-coated films usually show larger grain size but poorer uniformity than vapor-assisted films"
+  }
+ },
+ {
+  "claim_id": "c6",
+  "claim_kind": "related_work",
+  "text": "micrometer-scale grains with a surface roughness of 18 nm [6], and blade coating at a coating speed of 5 mm s-1 yields an efficiency of 19",
+  "citations": [
+   "n:6"
+  ],
+  "source": {
+   "para_id": "material",
+   "quote": "produced grain sizes of 1.2 um with a surface roughness of 18 nm"
+  }
+ },
+ {
+  "claim_id": "c7",
+  "claim_kind": "related_work",
+  "text": "blade coating at a coating speed of 5 mm s-1 yields an efficiency of 19",
+  "citations": [
+   "n:8"
+  ],
+  "source": {
+   "para_id": "material",
+   "quote": "blade-coated devices reached 19.8% PCE at a coating speed of 5 mm s-1"
+  }
+ },
+ {
+  "claim_id": "c8",
+  "claim_kind": "related_work",
+  "text": "suppressed hysteresis reached an efficiency of 21",
+  "citations": [
+   "n:7"
+  ],
+  "source": {
+   "para_id": "material",
+   "quote": "Solution-processed devices reached 21.4% PCE with a hysteresis index of 0.03"
+  }
+ },
+ {
+  "claim_id": "c9",
+  "claim_kind": "related_work",
+  "text": "phenethylammonium iodide passivation raised the open-circuit voltage to 1",
+  "citations": [
+   "n:9"
+  ],
+  "source": {
+   "para_id": "material",
+   "quote": "Additive engineering with phenethylammonium iodide (PEAI) improved the open-circuit voltage to 1.12 V"
+  }
+ },
+ {
+  "claim_id": "c10",
+  "claim_kind": "gap",
+  "text": "has not been reported [5][6][9]",
+  "citations": [
+   "n:5",
+   "n:6",
+   "n:9"
+  ],
+  "source": {
+   "para_id": "material",
+   "quote": "The combined effect of vapor-assisted growth and PEAI passivation has not been reported"
+  }
+ },
+ {
+  "claim_id": "c11",
+  "claim_kind": "gap",
+  "text": "lattice strain at the grain boundary [10][12]",
+  "citations": [
+   "n:10",
+   "n:12"
+  ],
+  "source": {
+   "para_id": "material",
+   "quote": "Few studies quantify moisture-driven lattice strain at the grain boundary"
+  }
+ },
+ {
+  "claim_id": "c12",
+  "claim_kind": "gap",
+  "text": "is retained at 85% relative humidity remains unknown [4][11]",
+  "citations": [
+   "n:4",
+   "n:11"
+  ],
+  "source": {
+   "para_id": "material",
+   "quote": "Whether the improved T80 under 45% relative humidity holds at 85% relative humidity remains unknown"
+  }
+ },
+ {
+  "claim_id": "c13",
+  "claim_kind": "contribution",
+  "text": "We propose a two-step route that combines vapor-assisted growth with phenethylammonium iodide passivation",
+  "citations": [],
+  "source": {
+   "para_id": "material",
+   "quote": "We propose a two-step route that combines vapor-assisted growth with PEAI passivation"
+  },
+  "result_anchor": {
+   "section": "4. Contributions",
+   "contrib_id": "k1",
+   "quote": "We propose a two-step route that combines vapor-assisted growth with PEAI passivation"
+  }
+ },
+ {
+  "claim_id": "c14",
+  "claim_kind": "own_result",
+  "text": "reaches 23",
+  "citations": [],
+  "source": {
+   "para_id": "material",
+   "quote": "The optimized device reached 23.5% PCE, an open-circuit voltage of 1.12 V, and a short-circuit current density of 23.5 mA cm-2"
+  },
+  "result_anchor": {
+   "section": "4. Contributions",
+   "contrib_id": "k2",
+   "result": "device metrics",
+   "quote": "reaches 23.5% power conversion efficiency, an open-circuit voltage of 1.12 V, and a short-circuit current density of 23.5 mA cm-2"
+  }
+ },
+ {
+  "claim_id": "c15",
+  "claim_kind": "own_result",
+  "text": "improves to 1000 h at 45% relative humidity and to 420 h at 85% relative humidity",
+  "citations": [],
+  "source": {
+   "para_id": "material",
+   "quote": "The T80 lifetime improved to 1000 h at 45% relative humidity, and to 420 h at 85% relative humidity"
+  },
+  "result_anchor": {
+   "section": "4. Contributions",
+   "contrib_id": "k3",
+   "result": "stability test",
+   "quote": "improves to 1000 h at 45% relative humidity and to 420 h at 85% relative humidity"
+  }
+ }
+]

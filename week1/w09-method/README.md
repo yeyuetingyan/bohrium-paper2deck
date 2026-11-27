@@ -21,7 +21,7 @@ scripts/methodkit.py            共用核：归一化、数值/引用/版本/种
 scripts/method_prep.py          第一步：确定性抽取 → work/ 下的候选清单与人读摘要
 scripts/method_assemble.py      第三步：硬核验 + 导出交付物（11 个文件）
 examples/make_sample_case.py    生成一套合成案例（材料 + case.json），可脱离平台自测
-examples/sample_materials/      合成材料：factsheet.md / config.yaml / train.log / prepare_data.py / dataset_notes.md
+examples/sample_materials/      合成材料：factsheet.md / config.yaml / train.log.txt / prepare_data.py / dataset_notes.md
 examples/example_*.{md,tsv,json,jsonl}  六份示例交付物 + 九条反例说明
 references/                     字段字典、要素清单、参数规则、核验规则
 ```
@@ -38,7 +38,7 @@ python scripts/method_prep.py --case examples/example_case.json --out /tmp/work
 
 # 3) 核验并导出
 python scripts/method_assemble.py --case examples/example_case.json --work /tmp/work \
-  --methods examples/example_methods.md --params examples/example_params.tsv \
+  --methods examples/example_methods.md --params examples/example_params.txt \
   --elements examples/example_elements.json --gaps examples/example_gaps.json \
   --repro examples/example_repro.json --source-map examples/example_source_map.json --out /tmp/out
 # → status ok / high 0 / medium 0 / low 1

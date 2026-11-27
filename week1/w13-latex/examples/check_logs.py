@@ -17,14 +17,14 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 EXPECT = {
-    "pdflatex_missing_package.log": {
+    "pdflatex_missing_package.log.txt": {
         "errors": 1,
         "category": "missing_package",
         "file": "main.tex",
         "line": 42,
         "warnings": {"undefined_cites": ["chen2019"]},
     },
-    "xelatex_multi_error.log": {
+    "xelatex_multi_error.log.txt": {
         "errors": 5,
         "root_errors": 4,
         "categories": ["brace_error", "missing_class", "math_syntax", "env_mismatch"],

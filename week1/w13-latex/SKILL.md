@@ -126,14 +126,14 @@ python scripts/tex_assemble.py --case /input/case.json --work /app/work --out /a
 ```bash
 python scripts/tex_prep.py --case examples/example_case.json --out /tmp/w
 python scripts/tex_assemble.py --case examples/example_case.json --work /tmp/w \
-  --revised examples/example_revised.tex --changes examples/example_changes.jsonl \
+  --revised examples/example_revised.tex --changes examples/example_changes.json \
   --diagnosis examples/example_diagnosis.json --checklist examples/example_checklist.json \
   --source-map examples/example_source_map.json --plan examples/example_compile_plan.json \
   --out /tmp/o
 ```
 
 **示例输出是示意**：`examples/example_*.json` 里的数值来自合成材料，不代表任何真实论文。
-`examples/example_rejected.jsonl` 列出 9 条「只破坏一处」的反例与核验器实际报出的问题；
+`examples/example_rejected.json` 列出 9 条「只破坏一处」的反例与核验器实际报出的问题；
 `examples/fixtures/*.log` 是**构造的日志夹具**，只用于测试日志解析器，不是真实编译产物。
 
 ## 依赖

@@ -1,0 +1,124 @@
+[
+ {
+  "case": "b1_brace_break",
+  "breaks": "把 \\end{document} 破坏成 \\end{documentx}",
+  "expect_issue": "end_without_begin/unclosed_env",
+  "expect_level": "high",
+  "observed": [
+   "end_without_begin",
+   "unclosed_env"
+  ],
+  "status": "partial",
+  "exit_code": 0,
+  "hit": true,
+  "stderr": ""
+ },
+ {
+  "case": "b2_number_changed",
+  "breaks": "把正文数值 3000 改成材料里没有的 4500",
+  "expect_issue": "protected_added_undeclared",
+  "expect_level": "medium",
+  "observed": [
+   "protected_added_undeclared"
+  ],
+  "status": "partial",
+  "exit_code": 0,
+  "hit": true,
+  "stderr": ""
+ },
+ {
+  "case": "b3_citation_dropped",
+  "breaks": "删掉一处 \\cite（bib 条目变成未引用）",
+  "expect_issue": "uncited_bib_entry",
+  "expect_level": "high",
+  "observed": [
+   "protected_dropped_undeclared",
+   "uncited_bib_entry"
+  ],
+  "status": "partial",
+  "exit_code": 0,
+  "hit": true,
+  "stderr": ""
+ },
+ {
+  "case": "b4_checklist_missing",
+  "breaks": "删掉 checklist.json",
+  "expect_issue": "checklist_missing",
+  "expect_level": "high",
+  "observed": [
+   "checklist_missing"
+  ],
+  "status": "partial",
+  "exit_code": 0,
+  "hit": true,
+  "stderr": ""
+ },
+ {
+  "case": "b5_diagnosis_missing",
+  "breaks": "删掉 diagnosis.json",
+  "expect_issue": "diagnosis_missing",
+  "expect_level": "high",
+  "observed": [
+   "diagnosis_missing"
+  ],
+  "status": "partial",
+  "exit_code": 0,
+  "hit": true,
+  "stderr": ""
+ },
+ {
+  "case": "b6_changes_empty",
+  "breaks": "把 changes.jsonl 清空",
+  "expect_issue": "changes_missing",
+  "expect_level": "high",
+  "observed": [
+   "changes_missing",
+   "protected_added_undeclared",
+   "protected_dropped_undeclared"
+  ],
+  "status": "partial",
+  "exit_code": 0,
+  "hit": true,
+  "stderr": ""
+ },
+ {
+  "case": "b7_source_quote_fake",
+  "breaks": "把一条来自材料的映射引文换成材料里没有的句子",
+  "expect_issue": "source_map_quote_not_in_material",
+  "expect_level": "high",
+  "observed": [
+   "source_map_quote_not_in_material"
+  ],
+  "status": "partial",
+  "exit_code": 0,
+  "hit": true,
+  "stderr": ""
+ },
+ {
+  "case": "b8_plan_incomplete",
+  "breaks": "把 compile_plan.json 的命令与轮次清空",
+  "expect_issue": "compile_plan_incomplete",
+  "expect_level": "high",
+  "observed": [
+   "compile_plan_incomplete"
+  ],
+  "status": "partial",
+  "exit_code": 0,
+  "hit": true,
+  "stderr": ""
+ },
+ {
+  "case": "b9_undefined_ref",
+  "breaks": "加一处 \\cref{sec:nonexistent}（未定义的交叉引用）",
+  "expect_issue": "undefined_ref",
+  "expect_level": "high",
+  "observed": [
+   "protected_added_undeclared",
+   "undefined_ref"
+  ],
+  "status": "partial",
+  "exit_code": 0,
+  "hit": true,
+  "stderr": ""
+ }
+]

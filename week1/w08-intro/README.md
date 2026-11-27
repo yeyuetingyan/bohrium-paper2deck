@@ -34,9 +34,9 @@ submission/
     ├── example_material.md       合成事实底稿
     ├── example_bibliography.bib  12 条合成文献
     ├── example_introduction.md   示例正文（四节）
-    ├── example_claims.jsonl      15 条论断绑定示例
-    ├── example_contributions.jsonl / example_groups.jsonl / example_citation_map.json / example_gaps.jsonl / example_terms.jsonl
-    └── example_rejected.jsonl    九条"只破坏一处"的反例及其预期命中项
+    ├── example_claims.json      15 条论断绑定示例
+    ├── example_contributions.json / example_groups.json / example_citation_map.json / example_gaps.json / example_terms.json
+    └── example_rejected.json    九条"只破坏一处"的反例及其预期命中项
 ```
 
 ## 快速开始
@@ -74,7 +74,7 @@ metrics       : claims_source_verified_rate=1.0  cited_grouped_rate=1.0
 
 ## 反例集
 
-`examples/example_rejected.jsonl` 收录九条"只破坏一处"的案例，全部经脚本核验按预期命中：
+`examples/example_rejected.json` 收录九条"只破坏一处"的案例，全部经脚本核验按预期命中：
 
 | 案例 | 破坏点 | 预期命中 |
 |---|---|---|

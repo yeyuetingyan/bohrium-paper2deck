@@ -123,11 +123,11 @@ python examples/make_sample_paper.py /tmp/sample.pdf          # 合成演示论�
 python scripts/translate_prep.py --pdf /tmp/sample.pdf --out /tmp/work
 python scripts/translate_assemble.py --segments /tmp/work/segments.json \
     --translations examples/example_translations.json \
-    --glossary examples/example_glossary.tsv --out /tmp/out
+    --glossary examples/example_glossary.txt --out /tmp/out
 # → status=ok，覆盖率 100%，不变量通过率 100%，术语一致率 100%
 ```
 
-`examples/` 里的 `example_translations.json`、`example_glossary.tsv` 都是**演示样例**（原文由脚本现场生成，非任何真实论文），用来演示接口与全流程；正式案例的原文与答案由评测平台提供。
+`examples/` 里的 `example_translations.json`、`example_glossary.txt` 都是**演示样例**（原文由脚本现场生成，非任何真实论文），用来演示接口与全流程；正式案例的原文与答案由评测平台提供。
 
 ## 依赖
 

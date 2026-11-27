@@ -1,0 +1,284 @@
+[
+ {
+  "entity_id": "e-mapbi3",
+  "label": "MAPbI3",
+  "type": "material",
+  "aliases": [
+   "CH3NH3PbI3",
+   "Methylammonium lead iodide"
+  ],
+  "note": "原文以 CH3NH3PbI3 全称定义，后文一律用 MAPbI3，同一物质",
+  "occurrences": [
+   {
+    "source_id": "synth-primary-0001",
+    "paragraph_id": "p-2-001",
+    "quote": "We fabricated MAPbI3 films by spin-coating a 1.2 M precursor solution onto mesoporous TiO2, followed by annealing at 100 C for 10 min on a hot plate."
+   },
+   {
+    "source_id": "synth-primary-0001",
+    "paragraph_id": "p-3-003",
+    "quote": "XRD showed that the (110) reflection of CH3NH3PbI3 weakened after 300 h, and a PbI2 peak at 12.7 degrees appeared, indicating decomposition of the absorber."
+   }
+  ]
+ },
+ {
+  "entity_id": "e-cs-fa",
+  "label": "Cs0.05FA0.95PbI3",
+  "type": "material",
+  "aliases": [],
+  "occurrences": [
+   {
+    "source_id": "synth-secondary-0002",
+    "paragraph_id": "p-2-001",
+    "quote": "Cs0.05FA0.95PbI3 films were deposited by two-step spin-coating, and one batch received a methylamine (MA) vapor treatment for 30 s before encapsulation."
+   }
+  ]
+ },
+ {
+  "entity_id": "e-spin",
+  "label": "spin-coating",
+  "type": "method",
+  "aliases": [],
+  "occurrences": [
+   {
+    "source_id": "synth-primary-0001",
+    "paragraph_id": "p-2-001",
+    "quote": "We fabricated MAPbI3 films by spin-coating a 1.2 M precursor solution onto mesoporous TiO2, followed by annealing at 100 C for 10 min on a hot plate."
+   }
+  ]
+ },
+ {
+  "entity_id": "e-encap",
+  "label": "encapsulation",
+  "type": "method",
+  "aliases": [],
+  "occurrences": [
+   {
+    "source_id": "synth-secondary-0002",
+    "paragraph_id": "p-2-002",
+    "quote": "Encapsulation used a glass-to-glass epoxy seal with a desiccant edge, applied in a nitrogen glovebox at 20 C."
+   }
+  ]
+ },
+ {
+  "entity_id": "e-ma-vapor",
+  "label": "MA vapor treatment",
+  "type": "method",
+  "aliases": [],
+  "note": "此处的 MA 指 methylamine（后文第 p-1-003 段明确），不是 methylammonium",
+  "occurrences": [
+   {
+    "source_id": "synth-secondary-0002",
+    "paragraph_id": "p-3-003",
+    "quote": "The MA vapor treatment increased the average grain size from 320 nm to 780 nm and improved the power conversion efficiency from 20.1% to 21.6%."
+   }
+  ]
+ },
+ {
+  "entity_id": "e-seal",
+  "label": "epoxy seal",
+  "type": "material",
+  "aliases": [],
+  "occurrences": [
+   {
+    "source_id": "synth-secondary-0002",
+    "paragraph_id": "p-2-002",
+    "quote": "Encapsulation used a glass-to-glass epoxy seal with a desiccant edge, applied in a nitrogen glovebox at 20 C."
+   }
+  ]
+ },
+ {
+  "entity_id": "e-methylamine",
+  "label": "methylamine",
+  "type": "material",
+  "aliases": [
+   "MA"
+  ],
+  "note": "仅指 secondary 这篇的处理剂；primary 里的 methylammonium 是另一回事，见 merges 的 keep_separate",
+  "occurrences": [
+   {
+    "source_id": "synth-secondary-0002",
+    "paragraph_id": "p-1-003",
+    "quote": "We note that methylamine (MA) vapor treatment is often used to recrystallize the film, and the abbreviation MA in this paper refers to methylamine unless stated otherwise."
+   }
+  ]
+ },
+ {
+  "entity_id": "e-methylammonium",
+  "label": "methylammonium",
+  "type": "material",
+  "aliases": [],
+  "occurrences": [
+   {
+    "source_id": "synth-primary-0001",
+    "paragraph_id": "p-1-002",
+    "quote": "Methylammonium lead iodide (CH3NH3PbI3) is the most studied absorber, but it is known to decompose under humid air because the methylammonium cation is hygroscopic."
+   }
+  ]
+ },
+ {
+  "entity_id": "e-xrd",
+  "label": "XRD",
+  "type": "method",
+  "aliases": [
+   "X-ray diffraction"
+  ],
+  "note": "原文以「X-ray diffraction (XRD)」定义缩写",
+  "occurrences": [
+   {
+    "source_id": "synth-primary-0001",
+    "paragraph_id": "p-3-003",
+    "quote": "XRD showed that the (110) reflection of CH3NH3PbI3 weakened after 300 h, and a PbI2 peak at 12.7 degrees appeared, indicating decomposition of the absorber."
+   }
+  ]
+ },
+ {
+  "entity_id": "e-psc",
+  "label": "Perovskite solar cells",
+  "type": "task",
+  "aliases": [
+   "PSC"
+  ],
+  "note": "两篇共用的上位任务术语：只表示研究领域，不代表同一物理样品",
+  "occurrences": [
+   {
+    "source_id": "synth-primary-0001",
+    "paragraph_id": "p-1-001",
+    "quote": "Perovskite solar cells (PSC) have reached certified power conversion efficiencies above 25%, yet their operational stability remains the main obstacle to commercialization."
+   }
+  ]
+ },
+ {
+  "entity_id": "e-t80",
+  "label": "T80",
+  "type": "metric",
+  "aliases": [],
+  "occurrences": [
+   {
+    "source_id": "synth-primary-0001",
+    "paragraph_id": "p-2-003",
+    "quote": "Stability tests were performed in a climate chamber at 25 C and 45% relative humidity under 1 sun illumination, and T80 was defined as the time to 80% of the initial efficiency."
+   },
+   {
+    "source_id": "synth-secondary-0002",
+    "paragraph_id": "p-3-001",
+    "quote": "Encapsulated Cs0.05FA0.95PbI3 devices retained 92% of their initial efficiency after 1000 h and reached a T80 of 1400 h at 85% relative humidity."
+   }
+  ]
+ },
+ {
+  "entity_id": "e-pce",
+  "label": "power conversion efficiency",
+  "type": "metric",
+  "aliases": [
+   "PCE",
+   "efficiency"
+  ],
+  "occurrences": [
+   {
+    "source_id": "synth-primary-0001",
+    "paragraph_id": "p-3-001",
+    "quote": "The pristine MAPbI3 devices reached an average power conversion efficiency (PCE) of 18.4% with a short-circuit current density of 22.1 mA cm-2 and an open-circuit voltage of 1.05 V."
+   },
+   {
+    "source_id": "synth-secondary-0002",
+    "paragraph_id": "p-3-003",
+    "quote": "The MA vapor treatment increased the average grain size from 320 nm to 780 nm and improved the power conversion efficiency from 20.1% to 21.6%."
+   }
+  ]
+ },
+ {
+  "entity_id": "e-grain",
+  "label": "grain size",
+  "type": "metric",
+  "aliases": [],
+  "occurrences": [
+   {
+    "source_id": "synth-secondary-0002",
+    "paragraph_id": "p-3-003",
+    "quote": "The MA vapor treatment increased the average grain size from 320 nm to 780 nm and improved the power conversion efficiency from 20.1% to 21.6%."
+   }
+  ]
+ },
+ {
+  "entity_id": "e-humid-air",
+  "label": "humid air",
+  "type": "condition",
+  "aliases": [],
+  "occurrences": [
+   {
+    "source_id": "synth-primary-0001",
+    "paragraph_id": "p-1-002",
+    "quote": "Methylammonium lead iodide (CH3NH3PbI3) is the most studied absorber, but it is known to decompose under humid air because the methylammonium cation is hygroscopic."
+   }
+  ]
+ },
+ {
+  "entity_id": "e-damp-heat",
+  "label": "damp heat",
+  "type": "condition",
+  "aliases": [],
+  "occurrences": [
+   {
+    "source_id": "synth-secondary-0002",
+    "paragraph_id": "p-4-001",
+    "quote": "Our damp-heat results conflict with the claim that humidity always accelerates degradation: with encapsulation, humidity exposure for 1000 h did not degrade the device."
+   }
+  ]
+ },
+ {
+  "entity_id": "e-rh45",
+  "label": "45%",
+  "type": "condition",
+  "aliases": [],
+  "note": "primary 的测试湿度：45% relative humidity",
+  "occurrences": [
+   {
+    "source_id": "synth-primary-0001",
+    "paragraph_id": "p-2-003",
+    "quote": "Stability tests were performed in a climate chamber at 25 C and 45% relative humidity under 1 sun illumination, and T80 was defined as the time to 80% of the initial efficiency."
+   }
+  ]
+ },
+ {
+  "entity_id": "e-rh85",
+  "label": "85%",
+  "type": "condition",
+  "aliases": [],
+  "note": "secondary 的测试湿度：85% relative humidity",
+  "occurrences": [
+   {
+    "source_id": "synth-secondary-0002",
+    "paragraph_id": "p-2-003",
+    "quote": "Damp-heat testing followed the same protocol as the earlier MAPbI3 work, at 25 C and 85% relative humidity under 1 sun."
+   }
+  ]
+ },
+ {
+  "entity_id": "e-stab-test",
+  "label": "stability test",
+  "type": "method",
+  "aliases": [],
+  "occurrences": [
+   {
+    "source_id": "synth-primary-0001",
+    "paragraph_id": "p-2-003",
+    "quote": "Stability tests were performed in a climate chamber at 25 C and 45% relative humidity under 1 sun illumination, and T80 was defined as the time to 80% of the initial efficiency."
+   }
+  ]
+ },
+ {
+  "entity_id": "e-zhang",
+  "label": "Zhang",
+  "type": "researcher",
+  "aliases": [],
+  "note": "primary 正文转述的前人工作（Zhang et al.），不是本文作者",
+  "occurrences": [
+   {
+    "source_id": "synth-primary-0001",
+    "paragraph_id": "p-1-003",
+    "quote": "Zhang et al. reported that devices degraded when the relative humidity exceeded 40%"
+   }
+  ]
+ }
+]

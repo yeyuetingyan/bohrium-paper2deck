@@ -589,7 +589,8 @@ def _file_kind(path):
     low = path.lower()
     for ext, kind in ((".yaml", "config"), (".yml", "config"), (".toml", "config"),
                       (".ini", "config"), (".cfg", "config"), (".json", "config"),
-                      (".log", "log"), (".out", "log"), (".csv", "table"), (".tsv", "table"),
+                      (".log", "log"), (".log.txt", "log"), (".out", "log"),
+                      (".csv", "table"), (".tsv", "table"), (".txt", "doc"),
                       (".py", "code"), (".sh", "code"), (".ipynb", "code"),
                       (".md", "doc"), (".txt", "doc"), (".tex", "doc"), (".bib", "doc"), (".pdf", "doc")):
         if low.endswith(ext):
@@ -763,19 +764,30 @@ def read_json(path):
 
 
 def load_jsonl(path):
+    """读 JSONL；也接受 JSON 数组形态（[ {...}, ... ]），两种写法都当行记录处理。"""
     rows = []
     try:
         with io.open(path, "r", encoding="utf-8-sig") as fh:
-            for ln in fh:
-                ln = ln.strip()
-                if not ln:
-                    continue
-                try:
-                    rows.append(json.loads(ln))
-                except Exception:
-                    rows.append({"__parse_error__": ln[:200]})
+            raw = fh.read().strip()
     except OSError:
         return []
+    if not raw:
+        return rows
+    if raw.startswith("["):
+        try:
+            doc = json.loads(raw)
+            if isinstance(doc, list):
+                return doc
+        except Exception as e:  # noqa: BLE001
+            return [{"__parse_error__": "json array: %s" % e}]
+    for ln in raw.splitlines():
+        ln = ln.strip()
+        if not ln:
+            continue
+        try:
+            rows.append(json.loads(ln))
+        except Exception:
+            rows.append({"__parse_error__": ln[:200]})
     return rows
 
 

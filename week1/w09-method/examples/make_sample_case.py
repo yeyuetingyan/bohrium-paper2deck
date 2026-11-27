@@ -5,12 +5,12 @@
 产出 <out>/materials/ 下四份形态各异的材料 + <out>/case.json：
   factsheet.md      —— 作者手写的事实底稿（含方法草稿、零散设置、限制）
   config.yaml       —— 训练配置（参数主要来源）
-  train.log         —— 实验日志（含阶段标记、硬件、版本、指标）
+  train.log.txt         —— 实验日志（含阶段标记、硬件、版本、指标）
   prepare_data.py   —— 数据预处理脚本（步骤与数据集信息）
   dataset_notes.md  —— 数据集说明（版本、规模、划分）
 
 刻意埋入的检验点：
-  * 参数冲突：config.yaml 里 batch_size=32，train.log 里 batch_size=64
+  * 参数冲突：config.yaml 里 batch_size=32，train.log.txt 里 batch_size=64
   * 随机种子只在日志里出现一次，配置里没有
   * 一条笼统限制（"有待进一步研究"）与两条具体限制
   * 对照基线只在事实底稿里点名，未给版本
@@ -190,7 +190,7 @@ CASE = {
     "material_files": [
         "materials/factsheet.md",
         "materials/config.yaml",
-        "materials/train.log",
+        "materials/train.log.txt",
         "materials/prepare_data.py",
         "materials/dataset_notes.md",
     ],
@@ -207,7 +207,7 @@ def main():
     payload = {
         "factsheet.md": FACTSHEET,
         "config.yaml": CONFIG,
-        "train.log": TRAIN_LOG,
+        "train.log.txt": TRAIN_LOG,
         "prepare_data.py": CODE,
         "dataset_notes.md": DATASET_NOTES,
     }

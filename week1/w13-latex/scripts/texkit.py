@@ -102,19 +102,30 @@ def read_json(path):
 
 
 def read_jsonl(path):
+    """读 JSONL；也接受 JSON 数组形态（[ {...}, ... ]），两种写法都当行记录处理。"""
     out = []
     try:
         with io.open(path, "r", encoding="utf-8-sig") as fh:
-            for ln in fh:
-                ln = ln.strip()
-                if not ln:
-                    continue
-                try:
-                    out.append(json.loads(ln))
-                except Exception:  # noqa: BLE001
-                    out.append({"__line_error__": ln[:200]})
+            raw = fh.read().strip()
     except Exception:  # noqa: BLE001
         return []
+    if not raw:
+        return out
+    if raw.startswith("["):
+        try:
+            doc = json.loads(raw)
+            if isinstance(doc, list):
+                return doc
+        except Exception:  # noqa: BLE001
+            return [{"__line_error__": "json array"}]
+    for ln in raw.splitlines():
+        ln = ln.strip()
+        if not ln:
+            continue
+        try:
+            out.append(json.loads(ln))
+        except Exception:  # noqa: BLE001
+            out.append({"__line_error__": ln[:200]})
     return out
 
 

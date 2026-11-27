@@ -26,8 +26,8 @@ python3 scripts/kg_query.py --graph /app/output/graph.json --label MAPbI3 --type
 python3 examples/make_sample_corpus.py <workdir>          # 生成两篇合成论文的四件输入
 python3 scripts/kg_prep.py --case <workdir>/case.json --out <workdir>/work
 python3 scripts/kg_assemble.py --case <workdir>/case.json --work <workdir>/work \
-        --entities examples/example_entities.jsonl --relations examples/example_relations.jsonl \
-        --merges examples/example_merges.jsonl --queries examples/example_queries.json \
+        --entities examples/example_entities.json --relations examples/example_relations.json \
+        --merges examples/example_merges.json --queries examples/example_queries.json \
         --out <workdir>/out
 ```
 
@@ -48,8 +48,8 @@ references/merge-rules.md      合并/不合并的判断标准与四类陷阱
 references/query-templates.md  九类查询的参数模板
 examples/make_sample_corpus.py 合成两篇论文语料（含四个对齐陷阱）
 examples/example_case.json     示例 case.json
-examples/example_entities.jsonl / example_relations.jsonl / example_merges.jsonl / example_queries.json
-examples/example_rejected.jsonl 6 条「故意被拒」样例（每条写明预期命中哪个检查）
+examples/example_entities.json / example_relations.json / example_merges.json / example_queries.json
+examples/example_rejected.json 6 条「故意被拒」样例（每条写明预期命中哪个检查）
 ```
 
 ## 已验证的行为（合成语料，两篇 26 段）

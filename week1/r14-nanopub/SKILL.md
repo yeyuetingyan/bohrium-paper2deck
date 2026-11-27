@@ -121,16 +121,16 @@ python3 examples/make_sample_paper.py /tmp/sample.pdf
 # 两步跑通
 python3 scripts/nanoextract.py  --pdf /tmp/sample.pdf --out /tmp/work
 python3 scripts/nanoassemble.py --work /tmp/work \
-        --assertions examples/example_assertions.jsonl --out /tmp/out
+        --assertions examples/example_assertions.json --out /tmp/out
 # => {"status":"ok","assertions":20,"quote_verified_rate":1.0,"minimal_evidence_rate":1.0,…}
 
 # 看核验器抓得到什么：5 条故意被拒的样例
 python3 scripts/nanoassemble.py --work /tmp/work \
-        --assertions examples/example_rejected.jsonl --out /tmp/out-rej
+        --assertions examples/example_rejected.json --out /tmp/out-rej
 # => {"status":"partial","assertions":5,"with_issues":5,…}
 ```
 
-`examples/example_assertions.jsonl` 是 20 条**通过样例**（含三处"一句拆两条"的示范、七类关系、否定极性、条件与量化）；`examples/example_rejected.jsonl` 是 5 条**故意被拒样例**，每条带 `nanopub_note` 说明预期命中哪个检查。
+`examples/example_assertions.json` 是 20 条**通过样例**（含三处"一句拆两条"的示范、七类关系、否定极性、条件与量化）；`examples/example_rejected.json` 是 5 条**故意被拒样例**，每条带 `nanopub_note` 说明预期命中哪个检查。
 
 ## 依赖
 
