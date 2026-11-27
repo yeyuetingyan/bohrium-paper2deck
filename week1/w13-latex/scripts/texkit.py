@@ -149,7 +149,7 @@ def pjson(obj):
     return json.dumps(obj, ensure_ascii=False, indent=2)
 
 
-TEXT_EXTS = (".tex", ".bib", ".cls", ".sty", ".bst", ".txt", ".md", ".cfg", ".def", ".log", ".ltx",
+TEXT_EXTS = (".tex", ".bib", ".bbl", ".cls", ".sty", ".bst", ".txt", ".md", ".cfg", ".def", ".log", ".ltx",
              ".docx", ".doc", ".odt", ".rtf", ".pdf")
 _BIN_EXTS = (".pdf", ".png", ".jpg", ".jpeg", ".eps", ".bbl", ".aux", ".out", ".toc", ".synctex")
 
@@ -253,6 +253,7 @@ def load_case(path):
         "template": _first(case, ("template", "template_class", "journal")) or "",
         "engine": _first(case, ("engine", "tex_engine", "compiler")) or "",
         "format_constraints": _first(case, ("format_constraints", "constraints")) or {},
+        "main_file": _first(case, ("main_file", "main", "main_tex", "entry", "root_file")) or "",
         "notes": [],
         "extra_json": {},
     }
@@ -300,15 +301,34 @@ def strip_comments(src):
     return "\n".join(out)
 
 
+def _n_backslashes(s, i):
+    """i 前面连续反斜杠的个数。"""
+    n = 0
+    j = i - 1
+    while j >= 0 and s[j] == "\\":
+        n += 1
+        j -= 1
+    return n
+
+
+def _escaped(s, i):
+    """位置 i 的字符是否被反斜杠转义：前面连续反斜杠为奇数个才算转义。
+
+    真实论文里 `\\\\{` 很常见（换行后紧跟花括号），旧实现只看前一个字符是不是反斜杠，
+    会把这类整体漏算，导致一堆假 `brace_unbalanced`。
+    """
+    return _n_backslashes(s, i) % 2 == 1
+
+
 def brace_balance(src):
     """返回括号不平衡的位置列表：[{index, line, col, char, depth}]。"""
     clean = strip_comments(src)
     depth = 0
     bad = []
     for i, ch in enumerate(clean):
-        if ch == "{" and (i == 0 or clean[i - 1] != "\\"):
+        if ch == "{" and not _escaped(clean, i):
             depth += 1
-        elif ch == "}" and (i == 0 or clean[i - 1] != "\\"):
+        elif ch == "}" and not _escaped(clean, i):
             depth -= 1
             if depth < 0:
                 ln, col = line_of_index(clean, i)
@@ -476,6 +496,8 @@ def bibliography_directives(src):
 
 MATH_ENVS = ("equation", "equation*", "align", "align*", "gather", "gather*", "multline",
              "multline*", "eqnarray", "eqnarray*", "split", "cases", "array", "displaymath", "math")
+# 只有这些环境真的吃编号；array/cases/split/math 只是排版容器，不该要求 \label
+NUMBERED_MATH_ENVS = ("equation", "align", "gather", "multline", "eqnarray")
 
 
 def math_regions(src):
@@ -501,12 +523,83 @@ def math_regions(src):
         for m in pat.finditer(clean):
             out.append({"kind": "environment", "env": env, "body": m.group(1).strip(),
                         "line": line_of_index(clean, m.start())[0],
-                        "numbered": not env.endswith("*")})
+                        "numbered": (not env.endswith("*")) and env in NUMBERED_MATH_ENVS})
     out.sort(key=lambda d: d.get("line") or 0)
     return out
 
 
-TABULAR_RE = re.compile(r"\\begin\s*\{(tabular|tabularx|longtable|table|table\*)\}(\{[^}]*\})?", re.S)
+TABULAR_RE = re.compile(
+    r"\\begin\s*\{(tabular|tabularx|longtable|table|table\*)\}(\{(?:[^{}]|\{[^{}]*\})*\})?", re.S)
+
+
+SPEC_WRAP_RE = re.compile(r"[pmb]\s*\{[^{}]*\}|@\s*\{[^{}]*\}|[<>]\s*\{[^{}]*\}")
+
+
+def _skip_group(s, i):
+    """从 s[i]=='{' 跳到配对的 '}' 之后。"""
+    depth = 0
+    while i < len(s):
+        if s[i] == "{":
+            depth += 1
+        elif s[i] == "}":
+            depth -= 1
+            if depth == 0:
+                return i + 1
+        i += 1
+    return i
+
+
+def count_columns(spec):
+    """数 tabular 的列数。
+
+    真实表的列声明比 `{lll}` 复杂得多：
+      - `p{2.2cm}` / `m{...}` / `b{...}` / `x{42}`（作者自定义的 `\\newcolumntype`）都带参数组；
+      - `@{...}` / `>{...}` / `<{...}` / `!{...}` 是**修饰**不是列；
+      - `tabularx` 的写法是 `{l}{width}`，第二个组不是列声明。
+    所以按字符扫描：字母计一列并跳过它的参数组，修饰符只跳过参数组。
+    """
+    sp = (spec or "").strip()
+    if sp.startswith("{"):
+        parts = re.findall(r"\{((?:[^{}]|\{[^{}]*\})*)\}", sp)
+        if parts:
+            sp = parts[0]
+    n = 0
+    i = 0
+    while i < len(sp):
+        ch = sp[i]
+        if ch in "@><!":
+            i += 1
+            while i < len(sp) and sp[i].isspace():
+                i += 1
+            if i < len(sp) and sp[i] == "{":
+                i = _skip_group(sp, i)
+            continue
+        if ch.isalpha():
+            n += 1
+            i += 1
+            while i < len(sp) and sp[i].isspace():
+                i += 1
+            if i < len(sp) and sp[i] == "{":
+                i = _skip_group(sp, i)
+            continue
+        i += 1
+    return n or None
+
+
+MULTICOL_RE = re.compile(r"\\multicolumn\s*\{(\d+)\}")
+MULTIROW_RE = re.compile(r"\\multirow\s*\{(\d+)\}")
+CELL_SPLIT_RE = re.compile(r"(?<!\\)&")
+
+
+def count_cells(row):
+    """数一行的真实列数：**未被转义的** `&` 数 + 1，再把 `\\multicolumn{n}` 补成 n 列。
+
+    必须跳过 `\\&`（正文里的字面 &，如 "LTR \\& No NSP"），否则每行都会多算一格。
+    """
+    n = len(CELL_SPLIT_RE.split(row))
+    for m in MULTICOL_RE.finditer(row):
+        n += max(0, int(m.group(1)) - 1)
+    return n
 
 
 def tables(src):
@@ -518,12 +611,7 @@ def tables(src):
         e = end_pat.search(clean, m.end())
         body = clean[m.end(): e.start()] if e else ""
         rows = [r for r in re.split(r"\\\\", body) if r.strip() and "\\hline" not in r or r.strip().strip("\\hline").strip()]
-        ncols = None
-        if spec.startswith("{"):
-            sp = spec.strip("{}")
-            ncols = len(re.findall(r"[lcrpXm]", sp)) or None
-            if sp.count("|") and ncols is not None:
-                pass
+        ncols = count_columns(spec)
         out.append({
             "env": env, "spec": spec, "ncols": ncols,
             "line": line_of_index(clean, m.start())[0],
@@ -532,6 +620,10 @@ def tables(src):
             "has_caption": "\\caption" in body,
             "has_label": "\\label" in body,
             "body_head": norm(body)[:200],
+            # 把本表**自己的**正文范围带出去：调用方若重新 search 整个文件，
+            # 会拿到同文件里第一张表的正文，拿错误的行去对错误的列数。
+            "body_start": m.end(), "body_end": (e.start() if e else m.end()),
+            "body": body,
         })
     return out
 
@@ -609,6 +701,44 @@ def tokens_multiset(text):
 # --------------------------------------------------------------------------
 
 BIB_ENTRY_RE = re.compile(r"@(\w+)\s*\{\s*([^,\s}]+)\s*,", re.I)
+BBL_ITEM_RE = re.compile(r"\\bibitem(?:\[[^\]]*\])?\s*\{([^}]+)\}")
+THEBIB_RE = re.compile(r"\\begin\s*\{thebibliography\}(?:\[[^\]]*\])?(.*?)\\end\s*\{thebibliography\}", re.S)
+
+
+def bbl_entries(text, source=""):
+    """解析 `.bbl`（bibtex 的产物）或正文里的 `thebibliography` 环境，返回 [{key, type, fields, line}]。
+
+    arXiv 的源码包常常**只带 `.bbl` 不带 `.bib`**（Attention 更是直接手写 thebibliography）。
+    只认 `.bib` 会把这类论文的全部引用判成"文献库里找不到"，全是假 high。
+    """
+    src = strip_comments(text or "")
+    out = []
+    seen = set()
+
+    def add(key, line, raw):
+        key = (key or "").strip()
+        if not key or key in seen:
+            return
+        seen.add(key)
+        fields = {}
+        ym = re.search(r"\(?(\d{4})[a-z]?\)?", raw or "")
+        if ym:
+            fields["year"] = ym.group(1)
+        out.append({"key": key, "type": "bblitem", "fields": fields, "line": line,
+                    "source": source, "raw": norm(raw or "")[:300]})
+
+    for m in THEBIB_RE.finditer(src):
+        base = line_of_index(src, m.start())[0]
+        body = m.group(1)
+        for bm in BBL_ITEM_RE.finditer(body):
+            ln = base + (line_of_index(body, bm.start())[0] or 1) - 1
+            nxt = BBL_ITEM_RE.search(body, bm.end())
+            add(bm.group(1), ln, body[bm.end(): nxt.start() if nxt else len(body)])
+    for bm in BBL_ITEM_RE.finditer(src):
+        ln = line_of_index(src, bm.start())[0]
+        nxt = BBL_ITEM_RE.search(src, bm.end())
+        add(bm.group(1), ln, src[bm.end(): nxt.start() if nxt else len(src)])
+    return out
 
 
 def bib_entries(text):
@@ -1146,6 +1276,19 @@ def compile_project(project_dir, main_file, engine=None, outdir=None, bib_tool=N
     eng_path = tc["engines"].get(eng) or list(tc["engines"].values())[0]
     outdir = outdir or project_dir
     os.makedirs(outdir, exist_ok=True)
+    job = os.path.splitext(os.path.basename(main_file))[0]
+    # arXiv 惯例：工程里常自带预编译完成的 `<job>.bbl`（作者不想让评审跑 bibtex）。
+    # 有它就该直接用，不必（也常常无法）跑 bibtex —— 缺 .bib 数据源时 bibtex 只会失败。
+    bbl_ready = False
+    for cand in (os.path.join(outdir, job + ".bbl"), os.path.join(project_dir, job + ".bbl")):
+        if os.path.exists(cand):
+            if os.path.abspath(cand) != os.path.abspath(os.path.join(outdir, job + ".bbl")):
+                try:
+                    _copy_bin(cand, os.path.join(outdir, job + ".bbl"))
+                except Exception:  # noqa: BLE001
+                    continue
+            bbl_ready = True
+            break
     merged_log = []
     passes = 0
     last = None
@@ -1172,8 +1315,13 @@ def compile_project(project_dir, main_file, engine=None, outdir=None, bib_tool=N
             break
         # 需要跑 bib？—— bibtex/biber 都要在 .aux 所在目录（outdir）跑；
         # bibtex 还要靠 BIBINPUTS 才找得到工程目录里的 .bib。
-        aux = os.path.join(outdir, os.path.splitext(os.path.basename(main_file))[0] + ".aux")
-        want_bib = os.path.exists(aux) and re.search(r"\\citation\{|\\bibdata\{", _safe_read(aux) or "")
+        aux = os.path.join(outdir, job + ".aux")
+        # 只有 aux 里真的出现 `\bibdata{...}`（= 用了 \bibliography 且给了数据库）才需要跑 bibtex。
+        # 只出现 `\citation{...}` 的场景多半是手写 `\begin{thebibliography}`（很多 arXiv 论文这样），
+        # 此时跑 bibtex 只会产出空 .bbl 并记一次失败，毫无必要。
+        aux_txt = _safe_read(aux) or ""
+        has_bibdata = bool(re.search(r"\\bibdata\{[^}]*\S[^}]*\}", aux_txt))
+        want_bib = (not bbl_ready) and has_bibdata
         if want_bib and not bib_done:
             tool = pick_bib_tool(tc, src_text, prefer=bib_tool)
             # pick_bib_tool 返回的是“名字”（bibtex/biber），这里必须换成**绝对路径**，
@@ -1213,6 +1361,14 @@ def compile_project(project_dir, main_file, engine=None, outdir=None, bib_tool=N
     else:
         report["status"] = "failed"
     return report
+
+
+def _copy_bin(src, dst):
+    with open(src, "rb") as fh:
+        data = fh.read()
+    with open(dst, "wb") as fh:
+        fh.write(data)
+    return len(data)
 
 
 def _safe_read(path):

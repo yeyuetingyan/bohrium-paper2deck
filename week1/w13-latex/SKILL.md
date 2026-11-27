@@ -23,7 +23,7 @@ description: 把论文的 LaTeX 源码改到能编译、能复现、能继续编
 | 字段 | 说明 |
 |---|---|
 | `case_id` | 案例标识，必须回填到 `result.json` |
-| `material_files` | 材料文件列表（`.tex` / `.bib` / `.cls` / `.sty` / 图片 / `factsheet.md`…）。**顺序即契约**，决定内部编号，不要重排 |
+| `material_files` | 材料文件列表（`.tex` / `.bib` / `.bbl` / `.cls` / `.sty` / 图片 / `factsheet.md`…）。**顺序即契约**，决定内部编号，不要重排 |
 | `output_contract` | 期望产物字段（`revised` / `changes` / `diagnosis` / `checklist` / `source_map` / `check` / `review`…） |
 | `style` / `engine` | 可选；`engine` 会覆盖自动推荐的引擎 |
 | `format_constraints` | 可选；模板相关约束 |

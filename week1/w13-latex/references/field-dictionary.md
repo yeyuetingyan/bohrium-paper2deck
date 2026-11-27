@@ -13,9 +13,18 @@
 | `style` | str | 可选，体裁提示 |
 | `format_constraints` | dict | 可选，模板约束 |
 
-材料类型识别：`.tex` / `.bib` / `.cls` / `.sty` / `.bst` / `.log` 直接读文本；
+材料类型识别：`.tex` / `.bib` / `.bbl` / `.cls` / `.sty` / `.bst` / `.log` 直接读文本；
 `.pdf` 走 PyMuPDF 抽文字层（无文字层 → `unreadable:no_text_layer`）；
 `.docx` 走 zipfile 读 `word/document.xml`；`.doc` / `.odt` / `.rtf` → `unreadable:no_extractor`。
+
+`main_file`（可选）显式指定主文件；**真实工程的主文件常常不叫 `main.tex`**
+（如 `ms.tex`、`residual_v1_arxiv_release.tex`），此时靠这个字段点名，否则退化为
+「有 `\documentclass` 的、最长的那个 .tex」。
+
+文献来源按优先级合并并去重（`key` 唯一）：`.bib` → **`.bbl`（bibtex 产物）** →
+**正文里的 `\begin{thebibliography}`** → `case.json` 内联 bib。
+arXiv 源码包常常**只带 `.bbl` 不带 `.bib`**，甚至直接手写 `thebibliography`；
+只认 `.bib` 会把这类论文的全部引用误判成"文献库里找不到"。
 
 ## 中间产物（`/app/work`）
 

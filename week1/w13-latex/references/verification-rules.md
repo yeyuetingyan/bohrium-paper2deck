@@ -12,7 +12,7 @@
 | `unclosed_env` | high | `\begin{X}` 没有 `\end{X}`（给行号） |
 | `placeholder_left` | medium | 残留 `TODO` / `FIXME` / `XXX` |
 | `package_order` | medium | `cleveref`/`nameref` 在 `hyperref` **之前**加载 |
-| `table_column_mismatch` | high | `tabular` 声明列数与某行的 `&` 数不符（列出每行实际格数） |
+| `table_column_mismatch` | high | 某行的单元格数**多于** `tabular` 声明的列数（列数按字符扫描算出：`p{2.2cm}`/`x{42}` 这类自定义列型只算一列，`@{}`/`>{}`/`<{}`/`!{}` 是修饰不算列；行内 `\multicolumn{n}` 计 n 格，`\&` 不是分隔符） |
 | `table_no_rules` | low | `table`/`tabular` 没有 `\hline`/`\toprule` 等横线 |
 | `unbalanced_math` | high | `$` 个数为奇数 |
 | `numbered_math_no_label` | medium | 带编号公式（`equation`/`align`）没有 `\label` |
@@ -71,7 +71,24 @@
 - `source_map` 中 `kind ∈ ANCHOR_KINDS` 的条目是**指针**（`\label`/公式/图表/引用号），不核对引文。
 - 子文件被内联进主文件造成的重复计数，不判为「丢失」（见 `invariants.md` 的 `protected_scope`）。
 - `table_no_rules` 只报 low：三线表不是论文硬性要求。
+- **表格只报"单元格多于声明列数"，不报"少于"**：LaTeX 只在多给单元格时报
+  `Extra alignment tab`，少给几格是合法的（后面自动留空），真实论文里到处都是。
 - 取不到行号时只给文件（TeX 日志本身可能没给 `l.NN`）。
+- `.bbl` 与正文 `thebibliography` 里的 `\bibitem` 都算有效文献来源（arXiv 常态）。
+- 直接写在正文里的 `thebibliography` 是**合法**的，不算"没有文献库"。
+
+## 真实论文回归基线
+
+用四篇真实 arXiv 源码（含各自的模板与排版习惯）跑 `tex_prep.py`，**high 全部为 0**：
+
+| 样本 | 形态 | prep 结果 |
+|---|---|---|
+| `1706.03762` Attention | 主文件 + 7 子文件 + `nips_2017.sty` + 手写 `thebibliography` | 0 high / 1 medium / 3 low |
+| `1512.03385` ResNet | 单文件 69 KB + `.bbl` + 自定义列型 `x{42}` + eps 图 | 0 high / 0 medium / 6 low |
+| `2005.11401` RAG | 主文件 + 8 子文件 + `.bbl` + `references.bib` + `\multicolumn` 满表 | 0 high / 3 medium / 201 low |
+| `1810.04805` BERT | 主文件 1.7 KB + 8 子文件 + `main.bbl` + `\&` 字面量 | 0 high / 0 medium / 10 low |
+
+四篇都能被本 Skill 真编译出 PDF（pdflatex，2–4 轮）。
 
 ## 六、刻意不检查（写进 `unresolved`）
 

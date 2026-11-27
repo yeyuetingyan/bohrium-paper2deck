@@ -46,7 +46,10 @@ TEMPLATE_FIELDS = {
     "bibliography": r"\\(bibliography|addbibresource|begin\s*\{thebibliography\})",
 }
 
-PLACEHOLDER_RE = re.compile(r"\b(TODO|FIXME|XXX|TBD|待补|待定|占位)\b", re.I)
+PLACEHOLDER_RE = re.compile(r"\b(TODO|FIXME|XXX|TBD|待补|待定|占位)\b")
+# 论文里常见的 `\newcommand\todo{...}` / `\todo{...}` 宏是作者自己的批注工具，不是占位符；
+# 大写 TODO 才算占位标记（原先用 re.I，把 `\newcommand\todo` 也算了进去）。
+PLACEHOLDER_IGNORE_RE = re.compile(r"\\newcommand\s*\\?(?:todo|fixme|tbd)\b")
 HYPERREF_ORDER_NOTE = (
     "hyperref 通常应最后加载；cleveref 应在 hyperref 之后加载，否则交叉引用格式会失效。",
 )
@@ -72,8 +75,8 @@ def read_project(paths):
         text, note = ("", "")
         if ext in tk.TEXT_EXTS:
             text, note = tk.read_text_any(f)
-        elif ext not in (".tex", ".bib", ".cls", ".sty", ".bst", ".png", ".jpg", ".jpeg",
-                         ".pdf", ".eps", ".svg", ".log", ".aux", ".blg", ".bbl", ".gz", ".zip"):
+        elif ext not in (".tex", ".bib", ".bbl", ".cls", ".sty", ".bst", ".png", ".jpg", ".jpeg",
+                         ".pdf", ".eps", ".svg", ".log", ".aux", ".blg", ".gz", ".zip"):
             # 其它扩展名（.docx/.doc/.odt…）走通用读取，失败时给出 unreadable 说明，
             # 否则这类文件会被当成“无 note 的空文件”，把 unreadable 误判成 empty。
             text, note = tk.read_text_any(f)
@@ -83,7 +86,7 @@ def read_project(paths):
             "path": ap,
             "rel": os.path.relpath(ap, os.path.dirname(paths[0]) if paths else ap),
             "ext": ext,
-            "kind": ("tex" if ext == ".tex" else "bib" if ext == ".bib" else
+            "kind": ("tex" if ext == ".tex" else "bib" if ext == ".bib" else "bbl" if ext == ".bbl" else
                      "cls" if ext == ".cls" else "sty" if ext == ".sty" else
                      "log" if ext == ".log" else "other"),
             "text": text,
@@ -97,6 +100,13 @@ def pick_main(files, ctx):
     tex = [f for f in files if f["kind"] == "tex"]
     if not tex:
         return None
+    # 0) case 明确指定了主文件（真实工程的主文件常常不叫 main.tex）
+    want = (ctx or {}).get("main_file") or ""
+    if want:
+        wn = os.path.basename(want).lower()
+        for f in tex:
+            if os.path.basename(f["path"]).lower() == wn or f["rel"].replace("\\", "/").lower() == want.replace("\\", "/").lower():
+                return f
     # 1) magic root 2) 含 \documentclass 3) 名字像 main 4) 最长
     for f in tex:
         if tk.magic_root(f["text"]):
@@ -171,27 +181,26 @@ def check_tables(files):
         src = tk.strip_comments(f["text"])
         for t in tk.tables(f["text"]):
             if t["ncols"] and t["rows"]:
-                # 逐行数 & 数
-                body = None
-                m = re.search(r"\\begin\s*\{%s\}(.*?)\\end\s*\{%s\}" % (re.escape(t["env"]), re.escape(t["env"])),
-                              src, re.S)
-                if m:
-                    body = m.group(1)
+                # 用这张表**自己的**正文（别重新 search 整个文件，否则会拿到第一张表的正文）
+                body = t.get("body")
                 if body:
                     bad = []
                     for i, row in enumerate(re.split(r"\\\\", body), 1):
                         row = row.strip()
                         if not row or row.startswith("\\hline") or row.startswith("\\toprule") or "&" not in row:
                             continue
-                        n = len([c for c in row.split("&")])
-                        if n != t["ncols"]:
+                        n = tk.count_cells(row)
+                        # LaTeX 只在"单元格**多于**声明列数"时报 Extra alignment tab；
+                        # 少给几格是合法的（后面自动留空），真实论文里到处都是，
+                        # 所以只报"多"，不报"少"。
+                        if n > t["ncols"]:
                             bad.append({"row": i, "cells": n})
                     if bad:
                         issues.append({"kind": "table_column_mismatch", "level": "high",
                                        "file": f["rel"], "line": t["line"],
-                                       "detail": "%s 声明 %d 列，但有行给出别的列数：%s" %
+                                       "detail": "%s 声明 %d 列，但有行给出更多单元格：%s" %
                                                  (t["env"], t["ncols"], bad[:5]),
-                                       "hint": "表列数不一致会让 LaTeX 报 'Extra alignment tab'；补齐或合并多余 &。"})
+                                       "hint": "多余单元格会让 LaTeX 报 'Extra alignment tab'；补齐列声明或合并多余 &。"})
             if not t["has_hlines"]:
                 issues.append({"kind": "table_no_rules", "level": "low", "file": f["rel"], "line": t["line"],
                                "detail": "%s 没有 \\hline/\\toprule 等横线" % t["env"],
@@ -238,8 +247,12 @@ def check_tex_files(files):
                            "file": f["rel"], "line": p.get("line"), "env": p.get("env"),
                            "detail": "环境 %s 未正确配对" % p.get("env"),
                            "hint": "每个 \\begin{env} 必须有对应的 \\end{env}。"})
-        for ph in PLACEHOLDER_RE.finditer(tk.strip_comments(f["text"])):
+        clean_src = tk.strip_comments(f["text"])
+        for ph in PLACEHOLDER_RE.finditer(clean_src):
             ln, _ = tk.line_of_index(f["text"], ph.start())
+            line_txt = f["text"].split("\n")[max(0, ln - 1)] if ln else ""
+            if PLACEHOLDER_IGNORE_RE.search(line_txt):
+                continue
             issues.append({"kind": "placeholder_left", "level": "medium", "file": f["rel"], "line": ln,
                            "detail": "残留占位标记 %s" % ph.group(1), "hint": "交付前清掉占位或改成正式内容。"})
     return issues
@@ -455,8 +468,23 @@ def main(argv=None):
 
     bib_files = [f for f in readable if f["kind"] == "bib"]
     bib_entries = []
+    seen_bib_keys = set()
     for bf in bib_files:
         for e in tk.bib_entries(bf["text"]):
+            e["source_file"] = bf["rel"]
+            if e["key"] in seen_bib_keys:
+                continue
+            seen_bib_keys.add(e["key"])
+            bib_entries.append(e)
+    # `.bbl`（bibtex 产物）与正文里的 thebibliography：arXiv 源码包很常见，必须认，
+    # 否则整篇引用会被判成"文献库里找不到"。
+    for bf in readable:
+        if bf["kind"] not in ("bbl", "tex") or not bf["text"]:
+            continue
+        for e in tk.bbl_entries(bf["text"], source=bf["rel"]):
+            if e["key"] in seen_bib_keys:
+                continue
+            seen_bib_keys.add(e["key"])
             e["source_file"] = bf["rel"]
             bib_entries.append(e)
     # 也接受 case 内联 bib
@@ -464,6 +492,9 @@ def main(argv=None):
     if isinstance(inline_bib, str) and "@" in inline_bib:
         for e in tk.bib_entries(inline_bib):
             e["source_file"] = "case.json:inline"
+            if e["key"] in seen_bib_keys:
+                continue
+            seen_bib_keys.add(e["key"])
             bib_entries.append(e)
 
     include_tree, missing_inputs = walk_inputs(main_file, readable) if main_file else ([], [])
