@@ -1,0 +1,32 @@
+{
+  "schema": "method-repro/1.0",
+  "versions": {
+    "python": "3.10.13",
+    "torch": "2.1.0+cu118",
+    "cuda": "11.8",
+    "cudnn": "8.9.2",
+    "driver": "535.104.05"
+  },
+  "environment": {
+    "os_hint": "gpu-node-07",
+    "requirements": "requirements.txt（未写死 CUDA 版本）",
+    "env_vars": {
+      "CUDA_VISIBLE_DEVICES": "0,1"
+    },
+    "hardware": "2 x A100 80G"
+  },
+  "seeds": {
+    "python_seed": "1234",
+    "note": "每个设置重复 3 次，报平均值与标准差"
+  },
+  "commands": [
+    "python prepare_data.py --dataset longdocqa --out data/",
+    "python train_retriever.py --config configs/sparse.yaml"
+  ],
+  "checkpoint": "runs/sparse-v2/ckpt-12.pt",
+  "data_files": [
+    "data/longdocqa_train.jsonl",
+    "data/longdocqa_val.jsonl",
+    "data/longdocqa_test.jsonl"
+  ]
+}

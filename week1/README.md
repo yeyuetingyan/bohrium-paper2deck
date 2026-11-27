@@ -12,6 +12,7 @@
 | 写作02 | 学术语言润色 | `paper-polish` | [w02-polish](./w02-polish/) |
 | 写作04 | 引用管理与格式核对 | `cite-manager` | [w04-cite](./w04-cite/) |
 | 写作08 | 引言与相关工作写作 | `paper-intro` | [w08-intro](./w08-intro/) |
+| 写作09 | 方法与实验章节写作 | `paper-method` | [w09-method](./w09-method/) |
 
 ## 约定
 

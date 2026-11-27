@@ -1,0 +1,56 @@
+{
+  "case_id": "synth-w09-0001",
+  "task": "依据提供的材料，撰写「方法与实验章节」，包含方法步骤、实验设置、参数、数据集与划分、对照实验、复现与限制六部分；所有数值必须可回溯到材料，缺口与需人工确认处要显式标注。",
+  "audience": "期刊审稿人与希望复现该实验的研究者",
+  "genre": "journal-article",
+  "language": "en",
+  "format_constraints": {
+    "max_words": 1200,
+    "sections": [
+      "methods",
+      "settings",
+      "params",
+      "datasets",
+      "baselines",
+      "reproducibility",
+      "limitations"
+    ]
+  },
+  "output_contract": {
+    "methods": {
+      "required": true,
+      "default": null
+    },
+    "params": {
+      "required": true,
+      "default": null
+    },
+    "elements": {
+      "required": true,
+      "default": null
+    },
+    "gaps": {
+      "required": true,
+      "default": null
+    },
+    "repro": {
+      "required": true,
+      "default": null
+    },
+    "check": {
+      "required": true,
+      "default": null
+    },
+    "review": {
+      "required": false,
+      "default": null
+    }
+  },
+  "material_files": [
+    "sample_materials/factsheet.md",
+    "sample_materials/config.yaml",
+    "sample_materials/train.log",
+    "sample_materials/prepare_data.py",
+    "sample_materials/dataset_notes.md"
+  ]
+}

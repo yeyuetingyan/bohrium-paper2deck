@@ -1,0 +1,428 @@
+{
+  "schema": "method-source-map/1.0",
+  "items": [
+    {
+      "para_id": "m-p003",
+      "fact_ids": [
+        "f-m-001-s003"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-001-s003",
+          "source": "m-001",
+          "quote": "## 方法草稿 先把文档切成 512 token 的块，用 BM25 先召回候选，再用双塔编码器打分；"
+        }
+      ]
+    },
+    {
+      "para_id": "m-p004",
+      "fact_ids": [
+        "f-m-001-s003",
+        "f-m-003-s001"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-001-s003",
+          "source": "m-001",
+          "quote": "## 方法草稿 先把文档切成 512 token 的块，用 BM25 先召回候选，再用双塔编码器打分；"
+        },
+        {
+          "fact_id": "f-m-003-s001",
+          "source": "m-003",
+          "quote": "[2026-10-08 09:12:03] [env] host=gpu-node-07 python=3.10.13 torch=2.1.0+cu118 cuda=11.8 cudnn=8.9.2\n[2026-10-08 09:12:03] [env] CUDA_VISIBLE_DEVICES=0,1 nvidia-smi: 2 x A100 80G driver=535.104.05\n[202"
+        }
+      ]
+    },
+    {
+      "para_id": "m-p005",
+      "fact_ids": [
+        "f-m-001-s003",
+        "f-m-003-s001"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-001-s003",
+          "source": "m-001",
+          "quote": "## 方法草稿 先把文档切成 512 token 的块，用 BM25 先召回候选，再用双塔编码器打分；"
+        },
+        {
+          "fact_id": "f-m-003-s001",
+          "source": "m-003",
+          "quote": "[2026-10-08 09:12:03] [env] host=gpu-node-07 python=3.10.13 torch=2.1.0+cu118 cuda=11.8 cudnn=8.9.2\n[2026-10-08 09:12:03] [env] CUDA_VISIBLE_DEVICES=0,1 nvidia-smi: 2 x A100 80G driver=535.104.05\n[202"
+        }
+      ]
+    },
+    {
+      "para_id": "m-p006",
+      "fact_ids": [
+        "f-m-001-s004",
+        "f-m-001-s005",
+        "f-m-002-s001"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-001-s004",
+          "source": "m-001",
+          "quote": "编码器用的是 6 层 Transformer， 隐藏维度 768，8 个注意力头。"
+        },
+        {
+          "fact_id": "f-m-001-s005",
+          "source": "m-001",
+          "quote": "为了省显存，前两层改成稀疏注意力（局部窗口 64 + 全局 token 16 个）。"
+        },
+        {
+          "fact_id": "f-m-002-s001",
+          "source": "m-002",
+          "quote": "# 训练配置（configs/sparse.yaml）\nmodel:\n name: sparse-dual-encoder\n hidden_dim: 768\n num_layers: 6\n num_heads: 8\n dropout: 0.1\n max_seq_len: 512\nsparse:\n window_size: 64\n global_tokens: 16\n enable_layers: "
+        }
+      ]
+    },
+    {
+      "para_id": "m-p007",
+      "fact_ids": [
+        "f-m-001-s006",
+        "f-m-002-s001"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-001-s006",
+          "source": "m-001",
+          "quote": "训练目标还是对比学习，温度系数 0.07。"
+        },
+        {
+          "fact_id": "f-m-002-s001",
+          "source": "m-002",
+          "quote": "# 训练配置（configs/sparse.yaml）\nmodel:\n name: sparse-dual-encoder\n hidden_dim: 768\n num_layers: 6\n num_heads: 8\n dropout: 0.1\n max_seq_len: 512\nsparse:\n window_size: 64\n global_tokens: 16\n enable_layers: "
+        }
+      ]
+    },
+    {
+      "para_id": "m-p008",
+      "fact_ids": [
+        "f-m-001-s010",
+        "f-m-001-s011"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-001-s010",
+          "source": "m-001",
+          "quote": "评测用的检索指标是 Recall@20 和 nDCG@10。"
+        },
+        {
+          "fact_id": "f-m-001-s011",
+          "source": "m-001",
+          "quote": "每个设置重复 3 次，报平均值和标准差。"
+        }
+      ]
+    },
+    {
+      "para_id": "m-p009",
+      "fact_ids": [
+        "f-m-001-s025"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-001-s025",
+          "source": "m-001",
+          "quote": "## 复现 代码在仓库里，训练用 `python train_retriever.py --config configs/sparse.yaml`， 数据获取脚本是 `python prepare_data.py --dataset longdocqa --out data/`。"
+        }
+      ]
+    },
+    {
+      "para_id": "m-p011",
+      "fact_ids": [
+        "f-m-001-s007",
+        "f-m-003-s001"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-001-s007",
+          "source": "m-001",
+          "quote": "## 实验设置 机器是 2 x A100 80G，CUDA 11.8，torch 2.1.0。"
+        },
+        {
+          "fact_id": "f-m-003-s001",
+          "source": "m-003",
+          "quote": "[2026-10-08 09:12:03] [env] host=gpu-node-07 python=3.10.13 torch=2.1.0+cu118 cuda=11.8 cudnn=8.9.2\n[2026-10-08 09:12:03] [env] CUDA_VISIBLE_DEVICES=0,1 nvidia-smi: 2 x A100 80G driver=535.104.05\n[202"
+        }
+      ]
+    },
+    {
+      "para_id": "m-p012",
+      "fact_ids": [
+        "f-m-003-s001",
+        "f-m-001-s011",
+        "f-m-001-s026"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-003-s001",
+          "source": "m-003",
+          "quote": "[2026-10-08 09:12:03] [env] host=gpu-node-07 python=3.10.13 torch=2.1.0+cu118 cuda=11.8 cudnn=8.9.2\n[2026-10-08 09:12:03] [env] CUDA_VISIBLE_DEVICES=0,1 nvidia-smi: 2 x A100 80G driver=535.104.05\n[202"
+        },
+        {
+          "fact_id": "f-m-001-s011",
+          "source": "m-001",
+          "quote": "每个设置重复 3 次，报平均值和标准差。"
+        },
+        {
+          "fact_id": "f-m-001-s026",
+          "source": "m-001",
+          "quote": "环境用 requirements.txt 固定，但里面没写死 CUDA 版本。"
+        }
+      ]
+    },
+    {
+      "para_id": "m-p013",
+      "fact_ids": [
+        "f-m-003-s001"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-003-s001",
+          "source": "m-003",
+          "quote": "[2026-10-08 09:12:03] [env] host=gpu-node-07 python=3.10.13 torch=2.1.0+cu118 cuda=11.8 cudnn=8.9.2\n[2026-10-08 09:12:03] [env] CUDA_VISIBLE_DEVICES=0,1 nvidia-smi: 2 x A100 80G driver=535.104.05\n[202"
+        }
+      ]
+    },
+    {
+      "para_id": "m-p015",
+      "fact_ids": [
+        "f-m-002-s001",
+        "f-m-001-s008",
+        "f-m-001-s006",
+        "f-m-001-s010"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-002-s001",
+          "source": "m-002",
+          "quote": "# 训练配置（configs/sparse.yaml）\nmodel:\n name: sparse-dual-encoder\n hidden_dim: 768\n num_layers: 6\n num_heads: 8\n dropout: 0.1\n max_seq_len: 512\nsparse:\n window_size: 64\n global_tokens: 16\n enable_layers: "
+        },
+        {
+          "fact_id": "f-m-001-s008",
+          "source": "m-001",
+          "quote": "学习率 3e-5，warmup 500 步，训练 12 个 epoch，权重衰减 0.01。"
+        },
+        {
+          "fact_id": "f-m-001-s006",
+          "source": "m-001",
+          "quote": "训练目标还是对比学习，温度系数 0.07。"
+        },
+        {
+          "fact_id": "f-m-001-s010",
+          "source": "m-001",
+          "quote": "评测用的检索指标是 Recall@20 和 nDCG@10。"
+        }
+      ]
+    },
+    {
+      "para_id": "m-p016",
+      "fact_ids": [
+        "f-m-001-s009",
+        "f-m-002-s001",
+        "f-m-003-s001"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-001-s009",
+          "source": "m-001",
+          "quote": "训练时 batch_size 在配置里写的是 32，但日志里我看到的是 64，应该是后来改了配置没同步，以实际跑的那次为准（需要确认）。"
+        },
+        {
+          "fact_id": "f-m-002-s001",
+          "source": "m-002",
+          "quote": "# 训练配置（configs/sparse.yaml）\nmodel:\n name: sparse-dual-encoder\n hidden_dim: 768\n num_layers: 6\n num_heads: 8\n dropout: 0.1\n max_seq_len: 512\nsparse:\n window_size: 64\n global_tokens: 16\n enable_layers: "
+        },
+        {
+          "fact_id": "f-m-003-s001",
+          "source": "m-003",
+          "quote": "[2026-10-08 09:12:03] [env] host=gpu-node-07 python=3.10.13 torch=2.1.0+cu118 cuda=11.8 cudnn=8.9.2\n[2026-10-08 09:12:03] [env] CUDA_VISIBLE_DEVICES=0,1 nvidia-smi: 2 x A100 80G driver=535.104.05\n[202"
+        }
+      ]
+    },
+    {
+      "para_id": "m-p018",
+      "fact_ids": [
+        "f-m-005-s001",
+        "f-m-005-s002",
+        "f-m-001-s014"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-005-s001",
+          "source": "m-005",
+          "quote": "# 数据集说明\n\n## LongDocQA - 版本：v2.1（2026-03-14 发布） - 规模：原始 120,000 篇文档，清洗后 98,000 篇；"
+        },
+        {
+          "fact_id": "f-m-005-s002",
+          "source": "m-005",
+          "quote": "查询 8,400 条 - 领域：长文档问答（技术手册、年报） - 预处理：去 HTML 标签、统一小写、丢弃 <20 token 的文档 - 划分：train:val:test = 8:1:1，按文档 id 的 md5 哈希分桶 - 用途：训练与主评测\n\n## MSMarco-Doc - 版本：v1 - 规模：使用 3,200,000 篇的子集 - 用途：跨数据集泛化验证（仅测试）"
+        },
+        {
+          "fact_id": "f-m-001-s014",
+          "source": "m-001",
+          "quote": "## 数据集 用两个数据集：LongDocQA（版本 v2.1）和 MSMarco-Doc（版本 v1）。"
+        }
+      ]
+    },
+    {
+      "para_id": "m-p019",
+      "fact_ids": [
+        "f-m-001-s016",
+        "f-m-005-s002",
+        "f-m-001-s014"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-001-s016",
+          "source": "m-001",
+          "quote": "MSMarco-Doc 用了 320 万篇的子集。"
+        },
+        {
+          "fact_id": "f-m-005-s002",
+          "source": "m-005",
+          "quote": "查询 8,400 条 - 领域：长文档问答（技术手册、年报） - 预处理：去 HTML 标签、统一小写、丢弃 <20 token 的文档 - 划分：train:val:test = 8:1:1，按文档 id 的 md5 哈希分桶 - 用途：训练与主评测\n\n## MSMarco-Doc - 版本：v1 - 规模：使用 3,200,000 篇的子集 - 用途：跨数据集泛化验证（仅测试）"
+        },
+        {
+          "fact_id": "f-m-001-s014",
+          "source": "m-001",
+          "quote": "## 数据集 用两个数据集：LongDocQA（版本 v2.1）和 MSMarco-Doc（版本 v1）。"
+        }
+      ]
+    },
+    {
+      "para_id": "m-p020",
+      "fact_ids": [
+        "f-m-001-s018",
+        "f-m-001-s017",
+        "f-m-005-s002"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-001-s018",
+          "source": "m-001",
+          "quote": "预处理：去掉了长度小于 20 token 的文档，统一小写，去掉了 HTML 标签。"
+        },
+        {
+          "fact_id": "f-m-001-s017",
+          "source": "m-001",
+          "quote": "划分是 8:1:1，按文档 id 哈希分桶，避免同一篇文档的查询跨集合。"
+        },
+        {
+          "fact_id": "f-m-005-s002",
+          "source": "m-005",
+          "quote": "查询 8,400 条 - 领域：长文档问答（技术手册、年报） - 预处理：去 HTML 标签、统一小写、丢弃 <20 token 的文档 - 划分：train:val:test = 8:1:1，按文档 id 的 md5 哈希分桶 - 用途：训练与主评测\n\n## MSMarco-Doc - 版本：v1 - 规模：使用 3,200,000 篇的子集 - 用途：跨数据集泛化验证（仅测试）"
+        }
+      ]
+    },
+    {
+      "para_id": "m-p022",
+      "fact_ids": [
+        "f-m-001-s012",
+        "f-m-001-s013"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-001-s012",
+          "source": "m-001",
+          "quote": "## 对照 跟我们自己的 dense-only 模型比（baseline），也跟 BM25 基线比。"
+        },
+        {
+          "fact_id": "f-m-001-s013",
+          "source": "m-001",
+          "quote": "基线用的是同一批数据、同样的训练预算， 但我们当时没记下 dense-only 的具体版本号，需要从实验记录里翻。"
+        }
+      ]
+    },
+    {
+      "para_id": "m-p023",
+      "fact_ids": [
+        "f-m-001-s010",
+        "f-m-001-s011",
+        "f-m-001-s022",
+        "f-m-003-s001"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-001-s010",
+          "source": "m-001",
+          "quote": "评测用的检索指标是 Recall@20 和 nDCG@10。"
+        },
+        {
+          "fact_id": "f-m-001-s011",
+          "source": "m-001",
+          "quote": "每个设置重复 3 次，报平均值和标准差。"
+        },
+        {
+          "fact_id": "f-m-001-s022",
+          "source": "m-001",
+          "quote": "稀疏注意力在 batch_size 小于 8 时收益不稳定，小批量场景不建议使用。"
+        },
+        {
+          "fact_id": "f-m-003-s001",
+          "source": "m-003",
+          "quote": "[2026-10-08 09:12:03] [env] host=gpu-node-07 python=3.10.13 torch=2.1.0+cu118 cuda=11.8 cudnn=8.9.2\n[2026-10-08 09:12:03] [env] CUDA_VISIBLE_DEVICES=0,1 nvidia-smi: 2 x A100 80G driver=535.104.05\n[202"
+        }
+      ]
+    },
+    {
+      "para_id": "m-p025",
+      "fact_ids": [
+        "f-m-001-s025",
+        "f-m-003-s001"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-001-s025",
+          "source": "m-001",
+          "quote": "## 复现 代码在仓库里，训练用 `python train_retriever.py --config configs/sparse.yaml`， 数据获取脚本是 `python prepare_data.py --dataset longdocqa --out data/`。"
+        },
+        {
+          "fact_id": "f-m-003-s001",
+          "source": "m-003",
+          "quote": "[2026-10-08 09:12:03] [env] host=gpu-node-07 python=3.10.13 torch=2.1.0+cu118 cuda=11.8 cudnn=8.9.2\n[2026-10-08 09:12:03] [env] CUDA_VISIBLE_DEVICES=0,1 nvidia-smi: 2 x A100 80G driver=535.104.05\n[202"
+        }
+      ]
+    },
+    {
+      "para_id": "m-p026",
+      "fact_ids": [
+        "f-m-001-s020"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-001-s020",
+          "source": "m-001",
+          "quote": "当文档长度超过 8192 token 时，我们的局部窗口会漏掉远距离依赖，此时 Recall@20 会明显下降。"
+        }
+      ]
+    },
+    {
+      "para_id": "m-p027",
+      "fact_ids": [
+        "f-m-001-s022"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-001-s022",
+          "source": "m-001",
+          "quote": "稀疏注意力在 batch_size 小于 8 时收益不稳定，小批量场景不建议使用。"
+        }
+      ]
+    },
+    {
+      "para_id": "m-p028",
+      "fact_ids": [
+        "f-m-001-s024"
+      ],
+      "evidence": [
+        {
+          "fact_id": "f-m-001-s024",
+          "source": "m-001",
+          "quote": "稀疏注意力的理论加速比还有待进一步研究。"
+        }
+      ]
+    }
+  ]
+}

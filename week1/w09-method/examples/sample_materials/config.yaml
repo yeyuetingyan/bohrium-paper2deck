@@ -1,0 +1,29 @@
+# 训练配置（configs/sparse.yaml）
+model:
+  name: sparse-dual-encoder
+  hidden_dim: 768
+  num_layers: 6
+  num_heads: 8
+  dropout: 0.1
+  max_seq_len: 512
+sparse:
+  window_size: 64
+  global_tokens: 16
+  enable_layers: 2
+train:
+  batch_size: 32
+  learning_rate: 3.0e-05
+  warmup_steps: 500
+  weight_decay: 0.01
+  epochs: 12
+  temperature: 0.07
+  grad_clip: 1.0
+  fp16: true
+data:
+  train_file: data/longdocqa_train.jsonl
+  val_file: data/longdocqa_val.jsonl
+  test_file: data/longdocqa_test.jsonl
+  max_docs: 98000
+eval:
+  metrics: [recall@20, ndcg@10]
+  top_k: 100

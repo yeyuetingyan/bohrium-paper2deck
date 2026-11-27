@@ -1,0 +1,63 @@
+{
+  "schema": "method-gaps/1.0",
+  "gaps": [
+    {
+      "gap_id": "g1",
+      "element": "params",
+      "severity": "high",
+      "question": "参数 `batch_size` 在不同来源出现不同取值（32 / 64），请确认以哪一处为准。",
+      "action": "本稿按日志的 64 写入正文，若实际以配置为准请告知，我会同步改正文与 params.tsv。",
+      "conflict": {
+        "key": "batch_size",
+        "values": [
+          {
+            "value": "32",
+            "sources": [
+              {
+                "source": "config.yaml",
+                "line": 14
+              }
+            ]
+          },
+          {
+            "value": "64",
+            "sources": [
+              {
+                "source": "train.log",
+                "line": 6
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "gap_id": "g2",
+      "element": "baselines",
+      "severity": "medium",
+      "question": "dense-only 基线的具体版本号材料里没有记录，请补充版本或提交哈希。",
+      "action": "正文已标注版本未记录，拿到版本后会补进对照一节。"
+    },
+    {
+      "gap_id": "g3",
+      "element": "baselines",
+      "severity": "medium",
+      "question": "对照实验的统计方式（几次重复、是否配对检验）材料里只有「重复 3 次」，请确认是否需要用显著性检验。",
+      "action": "正文按重复 3 次报平均值与标准差写。"
+    },
+    {
+      "gap_id": "g4",
+      "element": "repro_limits",
+      "severity": "medium",
+      "question": "「理论加速比有待进一步研究」缺少具体条件，请给出适用区间或删除该说法。",
+      "action": "正文未把它写成结论，只标为待确认。"
+    },
+    {
+      "gap_id": "g5",
+      "element": "datasets",
+      "severity": "medium",
+      "question": "MSMarco-Doc 只用于测试，是否需要报告它在验证集上的结果？",
+      "action": "正文写为仅测试，避免与 LongDocQA 指标混用。"
+    }
+  ]
+}

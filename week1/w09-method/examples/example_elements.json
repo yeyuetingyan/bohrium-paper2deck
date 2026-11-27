@@ -1,0 +1,42 @@
+{
+  "schema": "method-elements/1.0",
+  "elements": {
+    "steps": {
+      "found": true,
+      "count": 5,
+      "section": "1. Methods",
+      "evidence": "五步流水线：切块 / 召回 / 精排 / 训练 / 评测，每步写明输入与输出"
+    },
+    "settings": {
+      "found": true,
+      "count": 6,
+      "section": "2. Experimental Settings",
+      "evidence": "硬件 2 x A100 80G、CUDA 11.8、torch 2.1.0+cu118、python 3.10.13、cudnn 8.9.2、driver 535.104.05，种子 1234，重复 3 次"
+    },
+    "params": {
+      "found": true,
+      "count": 27,
+      "section": "3. Parameters",
+      "artifact": "params.tsv",
+      "evidence": "每个参数一行，带来源文件与行号"
+    },
+    "datasets": {
+      "found": true,
+      "count": 2,
+      "section": "4. Datasets",
+      "evidence": "LongDocQA v2.1 与 MSMarco-Doc v1，划分 8:1:1 按文档 id 哈希"
+    },
+    "baselines": {
+      "found": true,
+      "count": 2,
+      "section": "5. Baselines",
+      "evidence": "dense-only（版本未记录，待确认）与 BM25，同数据同预算"
+    },
+    "repro_limits": {
+      "found": true,
+      "count": 3,
+      "section": "6. Reproducibility and Limitations",
+      "evidence": "两条具体限制（8192 token、batch_size 小于 8）+ 一条笼统说法转待确认"
+    }
+  }
+}
