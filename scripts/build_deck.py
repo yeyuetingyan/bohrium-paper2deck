@@ -23,6 +23,7 @@ import json
 import os
 import re
 import sys
+import traceback
 
 from pptx import Presentation
 from pptx.util import Inches, Pt, Emu
@@ -247,19 +248,75 @@ def evidence_line(ev):
     return "来源：" + " · ".join(parts[:3])
 
 
+def xy_crop(rect, pw, ph):
+    """Fractional (left, top, right, bottom) crop for a PDF-space rect."""
+    if isinstance(rect, dict):
+        rect = (rect.get("x0", 0), rect.get("y0", 0), rect.get("x1", 0), rect.get("y1", 0))
+    try:
+        x0, y0, x1, y1 = [float(v) for v in rect]
+    except (TypeError, ValueError):
+        return None
+    if not pw or not ph:
+        return None
+    l = min(max(x0 / pw, 0.0), 1.0)
+    t = min(max(y0 / ph, 0.0), 1.0)
+    r = min(max(x1 / pw, 0.0), 1.0)
+    b = min(max(y1 / ph, 0.0), 1.0)
+    return (l, t, r, b)
+
+
+def add_figure_image(slide, img_path, x, y, w_avail, h_avail, crop=None):
+    """Place an image inside the box, optionally cropping the source first.
+
+    Figure regions captured from a PDF often include the caption or a sliver of
+    the surrounding column; cropping to the detected region keeps the slide
+    readable without distorting the artwork.
+    """
+    from PIL import Image as _Image
+    with _Image.open(img_path) as im:
+        iw, ih = im.size
+        full_ar = iw / ih
+        if crop:
+            l, t, r, b = crop
+            if not (0 <= l < r <= 1 and 0 <= t < b <= 1):
+                crop = None
+            else:
+                box = (int(l * iw), int(t * ih), int(r * iw), int(b * ih))
+                if box[2] - box[0] > 8 and box[3] - box[1] > 8:
+                    im2 = im.crop(box)
+                    iw, ih = im2.size
+                    out = img_path + ".crop.png"
+                    im2.save(out)
+                    img_path = out
+                else:
+                    crop = None
+    ar = iw / ih
+    if ar > full_ar * 2.2:                 # clip looks degenerate
+        img_path, ar = img_path.replace(".crop.png", ""), full_ar
+    w, h = w_avail, w_avail / ar
+    if h > h_avail:
+        h, w = h_avail, h_avail * ar
+    x = x + (w_avail - w) / 2
+    slide.shapes.add_picture(img_path, Inches(x), Inches(y), Inches(w), Inches(h))
+    return w, h
+
+
 def slide_header(slide, kicker, title, subtitle=None):
     add_text(slide, M, 0.42, CW, 0.28, kicker or "", 12, True, ACCENT)
-    # title with adaptive size
+    # Title sizing: keep within two lines, and reserve the room those two lines
+    # actually take. Measured width underestimates bold type, so apply a margin.
     size = 30
-    while size > 21 and wrap_count(title, size, CW * 72, True) > 2:
+    while size > 21 and wrap_count(title, size, CW * 72 * 0.94, True) > 2:
         size -= 1
+    lines = max(1, min(2, wrap_count(title, size, CW * 72 * 0.94, True)))
     add_text(slide, M, 0.72, CW, 1.0, title, size, True, NAVY, line_spacing=1.02)
-    y = 0.72 + (0.42 if wrap_count(title, size, CW * 72, True) == 1 else 0.80)
+    y = 0.72 + lines * (size * 1.16 / 72.0) + 0.05
     if subtitle:
-        add_text(slide, M, y + 0.02, CW, 0.4, subtitle, 14, False, GRAY)
-        y += 0.42
-    add_box(slide, M, y + 0.10, 1.05, 0.035, fill=ACCENT)
-    return y + 0.30
+        sub_lines = max(1, min(2, wrap_count(subtitle, 13, CW * 72 * 0.98)))
+        add_text(slide, M, y, CW, 0.4, subtitle, 13, False, GRAY)
+        y += sub_lines * 0.235 + 0.05
+    add_box(slide, M, y + 0.05, 1.05, 0.035, fill=ACCENT)
+    return y + 0.24
 
 
 # ---------------------------------------------------------------- layouts
@@ -304,6 +361,24 @@ def layout_section(s, sl, deck):
 
 def layout_bullets(s, sl, deck):
     y = slide_header(s, sl.get("kicker"), sl.get("title", ""), sl.get("subtitle"))
+    items = sl.get("bullets") or []
+    bottom = SH - 0.85
+    h = bottom - y
+    size = fit_bullets(items, CW, h, 22, 15)
+    if items:
+        # start right under the title: centring left a dead band on short lists
+        add_bullets(s, M, y + 0.18, CW, h - 0.2, items, size=size,
+                    anchor=MSO_ANCHOR.TOP)
+    else:
+        # an empty body reads as a broken page; say so in the deck itself
+        add_text(s, M, y + h / 2 - 0.2, CW, 0.4,
+                 "（本页要点待补：论文该节无可用短句）", 13, False, GRAY, PP_ALIGN.CENTER)
+    return size
+
+
+def layout_bullets_side(s, sl, deck):
+    """Body bullets with a callout card on the right (used when plan says side)."""
+    y = slide_header(s, sl.get("kicker"), sl.get("title", ""), sl.get("subtitle"))
     items = sl.get("bullets", [])
     h = SH - 0.95 - y
     size = fit_bullets(items, CW * (0.62 if sl.get("side") else 1.0) - 0.15, h, 22, 14)
@@ -332,19 +407,15 @@ def layout_figure(s, sl, deck):
     with_caption = bool(fig.get("caption"))
 
     img_path = fig.get("path")
+    if img_path and not os.path.isabs(img_path) and deck.get("base_dir"):
+        img_path = os.path.join(deck["base_dir"], img_path)
     if img_path and os.path.exists(img_path):
-        iw, ih = Image.open(img_path).size
-        ar = iw / ih
-        # reserve right column for 2-3 takeaway bullets when present
+        crop = None
+        if fig.get("clip") and fig.get("page_size"):
+            crop = xy_crop(fig["clip"], fig["page_size"][0], fig["page_size"][1])
         side_items = sl.get("bullets", [])
         w_area = CW * (0.60 if side_items else 1.0)
-        h = avail_h
-        w = h * ar
-        if w > w_area:
-            w = w_area
-            h = w / ar
-        x = M + (w_area - w) / 2
-        s.shapes.add_picture(img_path, Inches(x), Inches(y + 0.02), Inches(w), Inches(h))
+        w, h = add_figure_image(s, img_path, M, y + 0.02, w_area, avail_h, crop)
         if side_items:
             add_bullets(s, M + CW * 0.635, y + 0.05, CW * 0.365, avail_h,
                         side_items, size=fit_bullets(side_items, CW * 0.365, avail_h, 15, 11))
@@ -695,10 +766,16 @@ def main():
 
     for i, sl in enumerate(slides):
         kind = sl.get("type", "bullets")
-        # a page-level claim doubles as the subtitle when none was given
+        # a page-level claim doubles as the subtitle when none was given — but for
+        # figure/table pages the claim is usually the caption, which the title
+        # already carries, so reuse it only when it adds something new.
         if kind in ("figure", "table", "comparison") and not sl.get("subtitle") \
                 and sl.get("claim"):
-            sl["subtitle"] = sl["claim"]
+            claim = re.sub(r"\s+", " ", sl["claim"]).strip()
+            title_norm = re.sub(r"\s+", " ", sl.get("title") or "").replace("…", "").strip()
+            if claim and not title_norm.endswith(claim.replace("…", "")) \
+                    and claim[:40] not in title_norm:
+                sl["subtitle"] = claim
         s = None
         got = None
         if use_template:
@@ -709,7 +786,9 @@ def main():
             try:
                 got = fun(s, sl, deck)
             except Exception as e:                       # never fail the whole deck
-                warnings.append(f"slide {i+1} ({kind}) render error: {e}")
+                tb = traceback.format_exc().strip().splitlines()[-3:]
+                warnings.append(f"slide {i+1} ({kind}) render error: {e!r} | " +
+                                " <- ".join(x.strip() for x in tb))
                 got = None
             if kind not in ("title", "section", "closing"):
                 chrome(s, deck, i + 1, total, evidence_line(sl.get("evidence")))

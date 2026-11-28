@@ -9,7 +9,8 @@
 ├── SKILL.md                    # 入口：触发条件、输入输出、7 步流程、异常处理
 ├── README.md                   # 本文件：安装、依赖、用法、限制、维护
 ├── scripts/
-│   ├── extract_paper.py        # PDF → paper.json + 裁剪图 + 表格渲染图
+│   ├── extract_paper.py        # PDF → paper.json + 裁剪图 + 表格渲染图（含矢量图区域渲染、字符级空格修复）
+│   ├── plan_assist.py          # paper.json → 可核验的 plan.json 骨架 + assist.json 待办
 │   ├── validate_plan.py        # 页计划静态校验（硬约束不通过即 fail）
 │   ├── build_deck.py           # plan.json → deck.pptx（内置版式 / 模板模式）
 │   ├── render_preview.py       # pptx → PDF + 逐页 PNG（LibreOffice 优先，WPS 回退）
@@ -54,12 +55,13 @@ python -m pip install python-pptx lxml pillow pymupdf matplotlib
 
 ## 3. 调用方式
 
-单次调用的最小流程（4 条命令，示例输出见 §6）：
+单次调用的最小流程（示例输出见 §6）：
 
 ```bash
 SKILL=/path/to/this/repo
 python "$SKILL/scripts/extract_paper.py" paper.pdf --out work/paper.json --figdir work/figures
-# —— 此步由模型阅读 paper.json，按 references/plan-schema.md 写出 work/plan.json ——
+python "$SKILL/scripts/plan_assist.py" work/paper.json --out work/plan.json --max-slides 10 --json work/assist.json
+# —— 此步由模型改写 work/plan.json（补 claim / notes / 措辞），可核验的骨架已由上一步钉住 ——
 python "$SKILL/scripts/validate_plan.py" work/plan.json --paper work/paper.json
 python "$SKILL/scripts/build_deck.py" work/plan.json --out out/deck.pptx \
     --evidence out/evidence.json --template template.pptx      # 无模板则省略 --template
@@ -89,12 +91,19 @@ python "$SKILL/scripts/make_result.py" --case-id CASE --deck out/deck.pptx \
 
 ## 5. 关键方法
 
-1. **主线重写而非段落切分**：先按 `references/outline-patterns.md` 选叙事骨架（问题—方法—证据—局限），再把段落改写为每页一句可被论文支持的主张；标题不复述主张。
-2. **证据先行**：每个内容页必须挂 `evidence`（页码 + 图/表/章节/正文 + 原文短句），页脚自动生成"来源：图 1 p.3 · 表 2 p.8"，与 `evidence.json` 一致；示意性论述标注"本页为分析，非原文结论"。
-3. **数字不被改写**：表格单元格解析不可靠时，改用表格渲染图（`tab_*.png`）嵌入，保留原始排版、单位与小数位，不做"修正"。
-4. **版面可容纳**：以真实字体度量（DejaVu/系统字体，CJK 按 1 em 估算）计算换行与行高，逐步缩小字号；仍放不下则报警告并建议改文案，不静默截断、不把正文压到 9 pt 以下。
-5. **模板优先**：有模板时只填占位符，保留母版配色、页脚、页号与版式层级；无匹配版式才回退内置 16:9 版式，并在 `warnings` 与 `uncertainty` 中说明。
-6. **讲稿与页面分离**：`notes` 写过渡、强调点与被追问时的补充证据，不复述页面文字（`validate_plan.py` 对"备注等于标题"给出警告，`check_deck.py` 对缺讲稿给出警告）。
+1. **确定性骨架 + 模型改写**：`plan_assist.py` 先把叙事页序、**逐字可核验**的要点、图/表页码证据钉住，模型只负责把要点改写成讲稿语气、补 `claim` 与 `notes`。要点在写入前就用"去空白后的近似匹配"回查页文本，查不到就不产出——宁可少一条，也不给一条编造的。
+2. **主线重写而非段落切分**：按 `references/outline-patterns.md` 选叙事骨架（问题—方法—证据—局限），每页一句可被论文支持的主张；标题不复述主张，图页标题用 `图号｜图注首句`（构建器会自动去掉重复的副标题）。
+3. **证据先行**：每个内容页必须挂 `evidence`（页码 + 图/表/章节/正文 + 原文短句），页脚自动生成"来源：图 1 p.3 · 表 2 p.8"，与 `evidence.json` 一致；示意性论述标注"本页为分析，非原文结论"。
+4. **矢量图也能抽**：期刊 PDF 的图多为矢量绘制（不是嵌入位图），旧做法抽到 0 张。现在按"图形簇聚类 + 图注邻接区域"渲染成 PNG，并在 `paper.json` 里记录 `clip` 与 `page_size`，构建时按比例裁切，避免把图注或邻栏带进画面。
+5. **粘连词修复**：部分 PDF 把一句话挤成一串无空格字符（`GPTusedthesamelearningrate`）。抽取层用字符盒间隙重算词边界，页码、图注、要点都从这里取，避免把粘连串当正文。
+6. **数字不被改写**：表格单元格解析不可靠时，改用表格渲染图（`tab_*.png`）嵌入，保留原始排版、单位与小数位；表注无法逐字定位的表页直接跳过（不可核验的表页比缺页更糟）。
+7. **版面可容纳**：以真实字体度量计算换行与行高，标题按实际渲染行数预留高度（避免双行标题压住副标题），逐步缩小字号；仍放不下则报警告并建议改文案，不静默截断、不把正文压到 9 pt 以下。
+8. **模板优先**：有模板时只填占位符，保留母版配色、页脚、页号与版式层级；无匹配版式才回退内置 16:9 版式，并在 `warnings` 与 `uncertainty` 中说明。
+9. **讲稿与页面分离**：`notes` 写过渡、强调点与被追问时的补充证据，不复述页面文字（`validate_plan.py` 对"备注等于标题"给出警告，`check_deck.py` 对缺讲稿给出警告）。
+
+### 真实论文验证
+
+`extract_paper.py` → `plan_assist.py` → `build_deck.py` → `render_preview.py` → `check_deck.py` 在 3 篇真实 arXiv 论文上整链跑通，并逐页目视核对了图页与要点页（BERT `1810.04805`、Attention `1706.03762`、RAG `2005.11401`）：各 10 页、抽到 3 张真图 + 2 张表、9 条引文全部逐字核验、`validate`/`check` 均 `pass`。这些论文**不随包提供**，此处只说明适用范围。
 
 ## 6. 最小调用示例
 

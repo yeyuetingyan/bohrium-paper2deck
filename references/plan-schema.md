@@ -2,11 +2,13 @@
 
 `build_deck.py` 的输入。所有字段大小写敏感，路径相对 `plan.json` 所在目录。
 
+> 也可以先用 `plan_assist.py <paper.json> --out plan.json` 生成一份**已通过校验的骨架**，再让模型改写措辞、补 `notes`。骨架里的要点都在写入前用"去空白近似匹配"回查过页文本，查不到的不产出；`assist.json` 会列出 `next_steps` 与 `warnings`（例如某章未识别、某表注定位不到）。
+
 ## deck
 
 | 字段 | 类型 | 说明 |
 |---|---|---|
-| `short_title` | str | 页脚左端文字，≤ 40 字符 |
+| `short_title` | str | 页脚左端文字，建议 ≤ 56 字符（按词边界截断） |
 | `kicker` | str | 标题页顶部小字，如"组会汇报" |
 | `max_slides` | int | 页数上限，超出会被截断并告警 |
 | `template` | str/null | 模板路径；命令行 `--template` 优先 |
@@ -40,10 +42,12 @@
 
 | 字段 | 说明 |
 |---|---|
-| `figure` | `{path, label:"Figure 1", caption}` |
+| `figure` | `{path, label:"Figure 1", caption, clip?, page_size?}` |
 | `bullets` | 可选 2–4 条读图要点，显示在右侧 |
+| `subtitle` | 可选；**若与标题末尾重复建议留空**（构建器会自动去重，避免双行标题压住副标题） |
 
 `path` 用 `paper.json` 中 `figures[].image`；表格渲染图（`tab_*.png`）也走这里，`label` 写 `"Table 2"`。
+`clip`（`{x0,y0,x1,y1}`，PDF 坐标）与 `page_size`（`[width,height]`）来自 `paper.json`，构建时按比例裁掉图注与邻栏；缺省则整图等比缩放。
 
 ### type = table
 
