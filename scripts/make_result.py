@@ -44,6 +44,7 @@ def main():
     ap.add_argument("--evidence", default=None)
     ap.add_argument("--check", default=None)
     ap.add_argument("--render", default=None)
+    ap.add_argument("--evidence-check", dest="evidence_check", default=None)
     ap.add_argument("--pdf", default=None)
     ap.add_argument("--status", default="ok", choices=["ok", "partial", "failed"])
     ap.add_argument("--note", default="")
@@ -54,9 +55,15 @@ def main():
     evidence = load(args.evidence) or {}
     check = load(args.check) or {}
     render = load(args.render) or {}
+    evcheck = load(args.evidence_check) or {}
 
     slides = plan.get("slides", [])
     artifacts = []
+
+    # the renderer decides where the PDF lands; trust render.json when --pdf is absent
+    pdf_path = args.pdf
+    if (not pdf_path or not os.path.exists(pdf_path)) and render.get("pdf"):
+        pdf_path = render.get("pdf")
 
     def add(path, role, media_type):
         if path and os.path.exists(path):
@@ -68,10 +75,11 @@ def main():
                               "status": "missing"})
 
     add(args.deck, "editable_presentation", "application/vnd.openxmlformats-officedocument.presentationml.presentation")
-    add(args.pdf, "rendered_pdf", "application/pdf")
+    add(pdf_path, "rendered_pdf", "application/pdf")
     for png in (render.get("previews") or []):
         add(os.path.join(render.get("out", ""), png), "rendered_preview", "image/png")
     add(args.evidence, "page_level_evidence_map", "application/json")
+    add(args.evidence_check, "evidence_verification_report", "application/json")
 
     # claims table: one row per content slide
     claims = []
@@ -100,6 +108,12 @@ def main():
         uncertainty.append({"item": "pdf preview not produced",
                             "reason": render.get("reason"),
                             "impact": "rendering must be verified in the target Office version"})
+    if evcheck.get("status") and evcheck.get("status") != "pass":
+        for c in (evcheck.get("checks") or [])[:12]:
+            uncertainty.append({"slide": c.get("slide"),
+                                "item": "evidence check: %s" % c.get("kind"),
+                                "reason": c.get("detail"),
+                                "impact": "the quoted support must be fixed or dropped"})
     if args.note:
         uncertainty.append({"item": "operator note", "reason": args.note})
 
@@ -117,6 +131,9 @@ def main():
         "slides_with_notes": sum(1 for s in slides if s.get("notes")),
         "check_status": check.get("status"),
         "render_status": render.get("status"),
+        "evidence_check_status": evcheck.get("status"),
+        "evidence_verified": evcheck.get("evidence_verified"),
+        "evidence_checked": evcheck.get("evidence_checked"),
     }
 
     result = {
@@ -125,8 +142,8 @@ def main():
         "status": args.status,
         "primary_result": {
             "deck": os.path.relpath(args.deck, os.path.dirname(os.path.abspath(args.out))),
-            "pdf": (os.path.relpath(args.pdf, os.path.dirname(os.path.abspath(args.out)))
-                    if args.pdf and os.path.exists(args.pdf) else None),
+            "pdf": (os.path.relpath(pdf_path, os.path.dirname(os.path.abspath(args.out)))
+                    if pdf_path and os.path.exists(pdf_path) else None),
             "previews": render.get("previews") or [],
             "slide_count": len(slides),
             "editable": True,

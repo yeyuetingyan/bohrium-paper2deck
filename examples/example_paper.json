@@ -1,0 +1,43 @@
+{
+  "_note": "配套 examples/example_plan.json 的最小 paper.json：8 页示意文本，用于让 validate_plan.py / check_deck.py / verify_evidence.py 在离线环境跑通。文本不是任何真实论文的内容，页码也不是出版物页码。",
+  "schema": "paper/v1",
+  "meta": {
+    "title": "Example Paper: A Minimal Demo",
+    "authors": ["Doe, J.", "Roe, R.", "Poe, P."],
+    "venue": "Demo Venue 2026",
+    "source": "synthetic",
+    "pages": 8
+  },
+  "sections": [
+    {"title": "Abstract", "page": 1, "level": 1,
+     "text": "example quote from the abstract: this synthetic paper exists only to demonstrate the pipeline."},
+    {"title": "Introduction", "page": 2, "level": 1,
+     "text": "example quote about sequential computation: a step-by-step recurrence cannot be parallelised over positions."},
+    {"title": "Method", "page": 4, "level": 1,
+     "text": "example quote about the method: the model is trained end to end on the synthetic corpus."},
+    {"title": "Results", "page": 8, "level": 1,
+     "text": "example table caption: main results on the synthetic benchmark."}
+  ],
+  "figures": [],
+  "tables": [
+    {"id": "tab_p8_1", "label": "Table 2", "page": 8, "image": "",
+     "caption": "example table caption: main results on the synthetic benchmark.",
+     "rows": [["Model", "Score"], ["Example-A", "00.0"], ["Example-B", "00.0"]]}
+  ],
+  "equations": [],
+  "index": {},
+  "captions": [
+    {"label": "Table 2", "kind": "table", "page": 8,
+     "caption": "example table caption: main results on the synthetic benchmark."}
+  ],
+  "page_text": [
+    "Example Paper: A Minimal Demo\nDoe, J., Roe, R., Poe, P.\nAbstract\nexample quote from the abstract: this synthetic paper exists only to demonstrate the pipeline.",
+    "1 Introduction\nexample quote about sequential computation: a step-by-step recurrence cannot be parallelised over positions.",
+    "2 Background\nThis page only exists so that page numbers in the example plan stay realistic.",
+    "3 Method\nexample quote about the method: the model is trained end to end on the synthetic corpus.",
+    "4 Training\nThe synthetic corpus contains three shards; none of them is a real dataset.",
+    "5 Analysis\nAblations are reported in the appendix of this synthetic document.",
+    "6 Discussion\nLimitations of the demo are intentionally not discussed here.",
+    "7 Results\nTable 2: example table caption: main results on the synthetic benchmark.\nModel Score Example-A 00.0 Example-B 00.0"
+  ]
+}

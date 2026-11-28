@@ -110,13 +110,22 @@ python "$SKILL/scripts/check_deck.py" "$O/deck.pptx" --plan "$W/plan.json" \
 
 报告溢出、缺讲稿、页码越界等问题。溢出优先改文案或减要点，不要靠缩到 9pt 以下。
 
-**7. 组装结果**
+**7. 复核证据（"别人能不能查"这一步）**
+
+```bash
+python "$SKILL/scripts/verify_evidence.py" "$W/plan.json" --paper "$W/paper.json" \
+  --pdf "$PAPER" --json "$O/evidence_check.json"
+```
+
+它重新打开 PDF，逐条断言：页码在范围内、引文**真的出现在那一页**（忽略空白与断词）、图/表标签在 `paper.json` 里且图片存在非空。`status=fail` 就回去改 evidence，不要带着坏证据出片——这一步是"每页可回溯"的机器证明，比自述有用。
+
+**8. 组装结果**
 
 ```bash
 python "$SKILL/scripts/make_result.py" --case-id "$CASE_ID" --deck "$O/deck.pptx" \
   --plan "$W/plan.json" --evidence "$O/evidence.json" --check "$O/check.json" \
   --render "$O/render.json" --pdf "$O/deck.pdf" --out "$O/result.json" \
-  --status ok
+  --status ok --evidence-check "$O/evidence_check.json"
 ```
 
 必须如实填 `status`：`ok` / `partial`（如缺渲染、缺图）/ `failed`。`uncertainty` 写清缺什么、影响哪一页。
@@ -167,8 +176,9 @@ python "$SKILL/scripts/make_result.py" --case-id "$CASE_ID" --deck "$O/deck.pptx
 `examples/example_plan.json` 是一份 4 页的示意计划（标题页 + 问题 + 结果 + 结论），其中的文本与页码均为**示例数据，不是正式案例结果**。可直接：
 
 ```bash
-python "$SKILL/scripts/validate_plan.py" "$SKILL/examples/example_plan.json"
+python "$SKILL/scripts/validate_plan.py" "$SKILL/examples/example_plan.json" --paper "$SKILL/examples/example_paper.json"
 python "$SKILL/scripts/build_deck.py" "$SKILL/examples/example_plan.json" --out /tmp/demo.pptx
+python "$SKILL/scripts/verify_evidence.py" "$SKILL/examples/example_plan.json" --paper "$SKILL/examples/example_paper.json"
 ```
 
 `plan_assist.py` 的输入是 `extract_paper.py` 产出的 `paper.json`（不是 `plan.json`），用法见上文步骤 1b。
@@ -179,11 +189,24 @@ python "$SKILL/scripts/build_deck.py" "$SKILL/examples/example_plan.json" --out 
 
 | 论文 | 页数 | 抽到图 / 表 | 骨架页 | 校验 |
 |---|---|---|---|---|
-| BERT | 16 | 5 / 7 | 10 页，9 条引文全部逐字核验 | `validate pass`、`check pass` |
-| Attention | 15 | 3 / 4 | 10 页，9 条引文 | `validate pass`、`check pass` |
-| RAG | 19 | 3 / 5 | 10 页，9 条引文 | `validate pass`、`check pass` |
+| BERT | 16 | 5 / 7 | 10 页，9 条引文全部逐字核验 | `validate pass`、`check pass`、`evidence pass` |
+| Attention | 15 | 3 / 4 | 10 页，9 条引文 | `validate pass`、`check pass`、`evidence pass` |
+| RAG | 19 | 3 / 5 | 10 页，9 条引文 | `validate pass`、`check pass`、`evidence pass` |
+
+`evidence pass` = `verify_evidence.py` 的重开 PDF 复核：三篇均 `evidence_checked 8 / evidence_verified 13 / issues {high:0,medium:0,low:0}`。
 
 这三篇的图都是矢量绘制（不是嵌入位图），旧版抽取器在它们上面抽到 **0 张图**；现在按"图形簇 + 图注邻接"渲染区域图，抽到的是完整真图。**注意：本 Skill 不附带这三篇的 PDF 与产物，上表只说明适用范围，不是预制答案。**
+
+## 参考文档
+
+| 文件 | 内容 |
+|---|---|
+| `references/plan-schema.md` | 页计划字段、约束与校验口径 |
+| `references/outline-patterns.md` | 叙事范式库（问题—方法—证据—局限） |
+| `references/evidence-rules.md` | 证据规则与页脚口径 |
+| `references/scoring-map.md` | **评分对照表**：每条评分点对应到哪个文件、哪个字段（评审索引） |
+
+不想读文档就先跑一条命令：`python "$SKILL/scripts/selftest.py"` —— 离线跑完 validate → build → check → verify，全绿返回 0。
 
 ## 限制
 

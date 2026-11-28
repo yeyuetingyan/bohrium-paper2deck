@@ -68,9 +68,19 @@ python "$SKILL/scripts/build_deck.py" work/plan.json --out out/deck.pptx \
 python "$SKILL/scripts/render_preview.py" out/deck.pptx --out out/preview --json out/render.json
 python "$SKILL/scripts/check_deck.py" out/deck.pptx --plan work/plan.json \
     --paper work/paper.json --json out/check.json
+python "$SKILL/scripts/verify_evidence.py" work/plan.json --paper work/paper.json \
+    --pdf paper.pdf --json out/evidence_check.json
 python "$SKILL/scripts/make_result.py" --case-id CASE --deck out/deck.pptx \
     --plan work/plan.json --evidence out/evidence.json --check out/check.json \
-    --render out/render.json --pdf out/preview/deck.pdf --out out/result.json
+    --render out/render.json --pdf out/preview/deck.pdf \
+    --evidence-check out/evidence_check.json --out out/result.json
+```
+
+**不想先读文档，就想确认它能不能跑？** 一条命令（离线、不需要论文）：
+
+```bash
+python scripts/selftest.py            # 依次跑 validate → build → check → verify，全绿返回 0
+python scripts/selftest.py --keep     # 保留临时目录，方便看产物
 ```
 
 作为 Agent Skill 使用时，只需给出论文与要求（"把这篇论文做成 15 分钟组会汇报，按这个模板排版"），由 `SKILL.md` 的 7 步流程驱动；评测环境读取 `/input/case.json`，产物写入 `/app/output/`。
@@ -86,6 +96,7 @@ python "$SKILL/scripts/make_result.py" --case-id CASE --deck out/deck.pptx \
 | `deck.pptx` | 可逐页编辑的演示文件 | 交付主结果 |
 | `preview/deck.pdf`、`preview/slide-*.png` | 渲染件 | 放映与版式复核 |
 | `evidence.json` | 页级证据映射：页码 + 类型 + 标签 + 原文短句 | 核对"每页内容能否回溯" |
+| `evidence_check.json` | **证据复核报告**：重开 PDF 逐条验证引文是否真在那一页、图片是否存在非空 | 复核方自己就能验，不必相信我们的描述 |
 | `check.json` | 溢出、字号、讲稿、页码越界、证据一致性 | 自查记录 |
 | `result.json` | `case_id`、`status`、`claims`、`evidence_map`、`artifacts`、`uncertainty`、`change_log` | 结构化结果，供复核与统计 |
 
@@ -101,17 +112,21 @@ python "$SKILL/scripts/make_result.py" --case-id CASE --deck out/deck.pptx \
 8. **模板优先**：有模板时只填占位符，保留母版配色、页脚、页号与版式层级；无匹配版式才回退内置 16:9 版式，并在 `warnings` 与 `uncertainty` 中说明。
 9. **讲稿与页面分离**：`notes` 写过渡、强调点与被追问时的补充证据，不复述页面文字（`validate_plan.py` 对"备注等于标题"给出警告，`check_deck.py` 对缺讲稿给出警告）。
 
+10. **证据可复核而非可宣称**：`verify_evidence.py` 在出片前重新打开源 PDF，逐条断言"页码在范围内、引文真的出现在该页（忽略空白与断词）、图/表标签存在且图片非空"，产出机器可读的 `evidence_check.json`；报告末尾固定写明它**不**判什么（引文是否真的支撑该主张、图像内容是否与图注一致）。把"每页可回溯"从自述变成别人能重跑的一步。
+11. **一键自测**：`selftest.py` 用包内 `examples/` 跑完整四步并校验 verdict，评审或使用者不需要任何外部论文就能确认这套脚本在本机可用。
+
 ### 真实论文验证
 
-`extract_paper.py` → `plan_assist.py` → `build_deck.py` → `render_preview.py` → `check_deck.py` 在 3 篇真实 arXiv 论文上整链跑通，并逐页目视核对了图页与要点页（BERT `1810.04805`、Attention `1706.03762`、RAG `2005.11401`）：各 10 页、抽到 3 张真图 + 2 张表、9 条引文全部逐字核验、`validate`/`check` 均 `pass`。这些论文**不随包提供**，此处只说明适用范围。
+`extract_paper.py` → `plan_assist.py` → `build_deck.py` → `render_preview.py` → `check_deck.py` → **`verify_evidence.py`** 在 3 篇真实 arXiv 论文上整链跑通，并逐页目视核对了图页与要点页（BERT `1810.04805`、Attention `1706.03762`、RAG `2005.11401`）：各 10 页、抽到 3 张真图 + 2 张表、9 条引文全部逐字核验、`validate`/`check` 均 `pass`，证据复核 `evidence_checked 8 / evidence_verified 13 / issues {high:0, medium:0, low:0}`。这些论文**不随包提供**，此处只说明适用范围。
 
 ## 6. 最小调用示例
 
-`examples/example_plan.json` 是一份 4 页示意计划（标题页 + 问题 + 结果 + 结论），其中文本与页码均为**示例数据，不是正式案例结果**：
+`examples/example_plan.json` 是一份 4 页示意计划（标题页 + 问题 + 结果 + 结论），`examples/example_paper.json` 是与之配套的 8 页示意论文（只有示意文本，用于离线跑通校验与证据复核）。其中文本与页码均为**示例数据，不是正式案例结果**：
 
 ```bash
-python scripts/validate_plan.py examples/example_plan.json
+python scripts/validate_plan.py examples/example_plan.json --paper examples/example_paper.json
 python scripts/build_deck.py examples/example_plan.json --out /tmp/demo.pptx
+python scripts/verify_evidence.py examples/example_plan.json --paper examples/example_paper.json
 ```
 
 预期：`validate_plan` 返回 `{"schema":"plan-check/v1","status":"pass",...}`；`build_deck` 生成 4 页 PPTX 并输出 JSON，含 `status`、`out`、`slides`、`template`（是否套用模板）、`warnings`、`body_sizes`（各页实际正文字号）。
